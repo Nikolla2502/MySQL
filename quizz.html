@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="stylecours.css" />
+    <style>
+        .vrai{
+            color:green;
+ 
+        }
+        .faux{
+            text-decoration: line-through;
+            color:red;
+            /* color:rgb(104, 103, 103); */
+            
+        }
+        .quizz{
+        background: rgb(139, 205, 250);
+        text-align:center;
+        height:50px;
+        padding-top:20px;
+        padding-bottom:20px;
+        margin:0 80px;
+        margin-top:100px;
+        line-height: 30px;
+        Font-size:2.5rem;
+        font-weight:bold;
+        border: 3px solid rgb(52, 137, 194);
+        }
+        
+    </style>
+    <title>Quizz OWASP</title>
+  </head>
+
+<body>
+
+<div class="title">Quizz SQL</div>
+
+<H1 class="quizz" style="background: rgb(108, 255, 174);border: 3px solid rgb(64, 163, 109);">Implémentez vos bases de données relationnelles avec SQL</H1>
+
+<H2 class="quizz">Créez une base de données avec MySQL</H2>
+<strong>1 - Afin de pouvoir utiliser MYSQL et de créer votre base de données, il vous faut créer l’utilisateur root.<br>
+     Ouvrez-votre terminal.<br>
+      Comment connectez-vous MySQL avec l'utilisateur root ? </strong>
+<ul>
+    <li class="vrai">
+        <strong><strong><u>mysql -u root -p</u></strong> puis on tape le mot de passe de l’utilisateur root.</strong>
+    </li><br>
+    <li class="faux">
+        <strong><strong><u>mysqladmin -u root -p</u></strong> puis on tape le mot de passe de l’utilisateur root.</strong>
+    </li><br>
+    <li class="faux">
+        <strong><strong><u>mysqladmin -u root password</u></strong> puis on tape le mot de passe de l’utilisateur root.</strong>
+    </li><br>
+    <em>L’utilisateur root, est l’utilisateur vous permettant de manipuler votre BDD.<br>
+        MySQL est la commande pour lancer… MySQL.<br>
+        Puis <strong><u>-u</u></strong> sert à mentionner avec quel utilisateur on se connecte (ici, “root”).<br>
+        Enfin, <strong><u>-p</u></strong> indique qu’on va ensuite taper le mot de passe de cet utilisateur.</em>
+</ul>
+
+<strong>2 - MySQL est désormais prêt à être utilisé.<br>
+    Vous allez appeler votre base de données Moviz.<br>
+    Quelle commande saisissez-vous pour créer la base de données de votre projet ? </strong><br>
+<ul>
+    <li class="faux">
+        <strong>CREATE BASE moviz;</strong>
+    </li><br>
+    <li class="faux">
+        <strong>CREATE DATABASE project;</strong>
+    </li><br>
+    <li class="vrai">
+        <strong>CREATE DATABASE moviz; </strong>
+    </li><br>
+    <em>Pour créer une BDD, on utilise la commande CREATE DATABASE suivie du nom de la base.</em>
+</ul>
+<strong>3 - La base de données Moviz comprend 4 tables différentes. Les 4 tables sont :
+    <ul>
+        <li>film ;</li><br>
+        <li>acteur ;</li><br>
+        <li>realisateur ;</li><br>
+        <li>note</li><br>
+    </ul>
+    La table film comprend les données suivantes : 
+<ul>
+    <li>nom : le nom du film ;</li><br>
+    <li>date_de_sortie : la date de sortie du film ;</li><br>
+    <li>synopsis : la description du scénario du film ;</li><br>
+    <li>langue : la langue principale du film ;</li><br>
+    <li>budget : le budget de production du film.</li><br>
+</ul>
+Créez la table film.<br>
+Quelle est la commande à réaliser pour créer la table ? 
+    </strong>    
+<ul>
+    <li class="faux" >
+        <strong><div class="code"  style="color:red">
+            CREATE TABLE film (<br>
+            <br>
+                nom VARCHAR(255) NOT NULL,<br>
+                <br>
+                date_de_sortie DATE,<br>
+                <br>
+                synopsis TEXT,<br>
+                <br>
+                langue VARCHAR(255),<br>
+                <br>
+                budget INT<br>
+                <br>
+            ) <br>
+        </div></strong>
+    </li><br>
+    <li class="vrai">
+        <strong><div class="code" style="color:green">
+            CREATE TABLE film (<br>
+            <br>
+            id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,<br>
+            <br>
+                nom VARCHAR(255) NOT NULL,<br>
+                <br>
+                date_de_sortie DATE,<br>
+                <br>
+                synopsis TEXT,<br>
+                <br>
+                langue VARCHAR(255),<br>
+                <br>
+                budget INT<br>
+                <br>
+            ) <br>
+        </div></strong>
+    </li><br>
+    <li class="faux">
+        <strong><div class="code" style="color:red">
+            CREATE TABLE film (<br>
+            <br>
+                id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,<br>
+                <br>
+                nom DATE NOT NULL,<br>
+                <br>
+                date_de_sortie VARCHAR(255),<br>
+                <br>
+                synopsis TEXT,<br>
+                <br>
+                langue VARCHAR(255),<br>
+                <br>
+                budget TEXT<br>
+                <br>
+            )<br>
+        </div></strong>
+    </li><br>
+
+    <em>Créer une table se fait avec la commande CREATE TABLE, suivie du nom de la table, puis des colonnes (ou champs) de la future table.</em>
+</ul>
+<strong>4 - Vous avez créé votre table film, mais vous aimeriez vous en assurer.<br>
+     Quelle commande permet de vérifier la création de la table film ? </strong>
+    
+<ul>
+    <li class="vrai">
+        <strong><strong><u>SHOW tables;</u></strong></strong>
+    </li><br>
+    <li class="faux">
+        <strong ><strong><u>SHOW databases:</u></strong></strong>
+            
+    </li><br>
+    <li class="faux">
+        <strong><strong><u>SHOW me the money;</u></strong>
+        </strong>
+    </li><br>
+    <em>SHOW tables permet de voir toutes les tables d’une BDD, et ainsi, d'en vérifier la création.</em>
+</ul>
+
+<strong>5 - Votre table film est bien créée, mais vous aimeriez à présent vérifier sa structure.<br>
+     Quelle commande faites-vous ? </strong>
+<ul>
+    <li class="faux">
+        <strong><strong><u>SHOW FIELDS FROM film;</u></strong></strong>
+    <li class="vrai">
+        <strong><strong><u>SHOW COLUMNS FROM film;</u></strong></strong>
+    </li><br>
+    <li class="faux">
+        <strong><strong><u>SHOW STRUCTURE FROM film;</u></strong></strong>
+    </li><br>
+    <em>La commande pour voir la structure d’une table est celle qui permet d’en voir les colonnes.<br>
+        Soit  <strong><u>SHOW COLUMNS FROM</u></strong>  suivie du nom de la table.</em>
+</ul>
+
+<H2 class="quizz">Manipulez des données avec les opérations CRUD</H2>
+Reprenons notre BDD Moviz du précédent quiz. Cette base doit contenir des films, or elle n’en contient actuellement aucun !<br>
+Si vous ne l’avez plus, voici le lien pour la télécharger : <a href="https://github.com/OpenClassrooms-Student-Center/Course-implementez-BDD-SQL/blob/master/partie_2/moviz.sql" target="_blank">Moviz.sql</a><br>
+Commencez donc par ajouter des films puis vous essaierez :
+<ul>
+    <li>de les lire depuis votre base ;</li><br>
+    <li>de les modifier ;</li><br>
+    <li>et enfin de les supprimer.</li><br>
+</ul>
+Pour rappel, voici le schéma de la table “film” :
+<table>
+    <tr>
+        <th>Nom du champ</th>
+        <th>Type du champ</th>
+        <th>Description du champ</th>
+    </tr>
+    <tr>
+        <td>nom</td>
+        <td>VARCHAR(255)</td>
+        <td>le nom du film</td>
+    </tr>
+    <tr>
+        <td>date_de_sortie</td>
+        <td>DATE</td>
+        <td>la date de sortie du film</td>
+    </tr>
+    <tr>
+        <td>synopsis</td>
+        <td>TEXT</td>
+        <td>la description du scénario du film</td>
+    </tr>
+    <tr>
+        <td>langue</td>
+        <td>VARCHAR(255)</td>
+        <td>la langue principale du film</td>
+    </tr>
+    <tr>
+        <td>budget</td>
+        <td>INTEGER</td>
+        <td>le budget de production du film</td>
+    </tr>
+  </table>
+  Et les trois films que l’on va ajouter puis manipuler :
+  <table>
+    <tr>
+        <th>Nom</th>
+        <th>Date de sortie</th>
+        <th>Budget</th>
+        <th>Synopsis</th>
+        <th>Langue</th>
+    </tr>
+    <tr>
+        <td>Titanic</td>
+        <td>04 avril 1998</td>
+        <td>200 000 000 $</td>
+        <td>L'histoire du plus grand paquebot de son époque,<br> et de sa funeste fin.</td>
+        <td>anglais</td>
+    </tr>
+    <tr>
+        <td>Skyfall</td>
+        <td>26 octobre 2012</td>
+        <td>200 000 000 $</td>
+        <td>Dans cet épisode le plus sombre de la saga,<br> James Bond retourne à ses origines.</td>
+        <td>anglais</td>
+    </tr>
+    <tr>
+        <td>La La Land</td>
+        <td>25 janvier 2017</td>
+        <td>30 000 000 $</td>
+        <td>Une histoire d'amour à Los Angeles sous forme de comédie musicale.</td>
+        <td>anglais</td>
+    </tr>
+  </table>
+<strong>1 - Quelle commande crée les trois films ?</strong>
+<ul>
+    <li class="faux" >
+        <strong><div class="code" style="color:red">
+            INSERT INTO `film` (`nom`, `budget`, `synopsis`, `langue`, `date_de_sortie`)<br>
+            <br>
+            VALUES<br>
+            <br>
+            (`Titanic`, `1998-04-04`,  `L'histoire du plus grand paquebot de son époque, et de sa funestre fin.`, `anglais`, 200000000),<br>
+            <br>
+            (`Skyfall`, `2012-10-26`,  `Dans cet épisode le plus sombre de la saga, James Bond retourne à ses origines.`, `anglais`, 200000000),<br>
+            <br>
+            (`La La Land`, `2017-01-25`,  `Une histoire d'amour à Los Angeles sous forme de comédie musicale.`, `anglais`, 30000000);<br>
+        </div></strong>
+    </li><br>
+    <li class="faux" >
+        <strong><div class="code" style="color:red">
+            UPDATE INTO `film` (`nom`, `date_de_sortie`, `synopsis`, `langue`, `budget`)<br>
+            <br>
+            VALUES<br>
+            <br>
+            (`Titanic`, `1997-04-04`,  `L'histoire du plus grand paquebot de son époque, et de sa funestre fin.`, `français`, 15000000),<br>
+            <br>
+            (`Skyfall`, `2015-10-26`,  `Dans cet épisode le plus sombre de la saga, James Bond retourne à ses origines.`, `allemand`, 85000000),<br>
+            <br>
+            (`La La Land`, `2017-01-15`,  `Une histoire d'amour à Los Angeles sous forme de comédie musicale.`, `anglais`, 30000000);<br>
+        </div></strong>
+    </li><br>
+    <li class="vrai">
+        <strong><div class="code" style="color:green">
+            INSERT INTO `film` (`nom`, `date_de_sortie`, `synopsis`, `langue`, `budget`)<br>
+            <br>
+            VALUES<br>
+            <br>
+            (`Titanic`, `1998-04-04`,  `L'histoire du plus grand paquebot de son époque, et de sa funestre fin.`, `anglais`, 200000000),<br>
+            <br>
+            (`Skyfall`, `2012-10-26`,  `Dans cet épisode le plus sombre de la saga, James Bond retourne à ses origines.`, `anglais`, 200000000),<br>
+            <br>
+            (`La La Land`, `2017-01-25`,  `Une histoire d'amour à Los Angeles sous forme de comédie musicale.`, `anglais`, 30000000);<br>
+        </div></strong>
+    </li><br>
+
+    <em>La commande pour ajouter des objets est <strong><u>INSERT INTO</u></strong>,<br>
+        suivi de la table dans laquelle insérer les objets (ici, “film”),<br>
+        puis du nom des colonnes que l’on souhaite renseigner,<br>
+        de <strong><u>VALUES</u></strong>,<br>
+        avec les valeurs de chaque objet dans l’ordre des colonnes mentionné précédemment.</em>
+</ul>
+
+
+<strong>2 - Quelle commande permet de lire les titres et dates de sorties des films que l’on vient d’ajouter ?</strong><br>
+<ul>
+    <li class="faux">
+        <strong><u>SELECT * FROM film;</u></strong>
+    </li><br>
+    <li class="vrai">
+        <strong><u>SELECT `nom`, `date_de_sortie` FROM film;</u></strong>
+    </li><br>
+    <li class="faux">
+        <strong><u>DELETE * FROM film;</u> </strong>
+    </li><br>
+    <em><strong><u>SELECT</u></strong>, quand il est utilisé avec des colonnes spécifiques (au contraire de <strong><u>*</u></strong>, qui signifie “toutes les colonnes”),<br>
+        n’affichera que les colonnes mentionnées.</em>
+</ul>
+<strong>3 - Quelle serait la fin d’une commande pour filtrer sur le film Titanic uniquement ?</strong>    
+<ul>
+    <li class="vrai">
+        <strong><u>WHERE `nom` = “Titanic”;</u></strong>
+    </li><br>
+    <li class="faux">
+        <strong><u>WHERE `Titanic`:</u></strong>
+    </li><br>
+    <li class="faux">
+        <strong><u>DELETE * FROM film;</u> </strong>
+    </li><br>
+    <em>Ici, <strong><u>WHERE</u></strong>, suivi de la condition sur le titre égal à “Titanic”, restreindra la commande à ce film uniquement.</em>
+</ul>
+<strong>4 -Si on utilisait UPDATE sans WHERE, que se passerait-il ?</strong>
+    
+<ul>
+    <li class="faux">
+        <strong><strong><u>On supprimerait tous les objets d’une table.</u></strong></strong>
+    </li><br>
+    <li class="vrai">
+        <strong ><strong><u>On mettrait à jour tous les objets d’une table.</u></strong></strong>
+    </li><br>
+    <li class="faux">
+        <strong><strong><u>Le commande ne fonctionnerait pas.</u></strong>
+        </strong>
+    </li><br>
+    <em>Par défaut, une commande <strong><u>UPDATE</u></strong>, mais aussi <strong><u>SELECT</u></strong> ou <strong><u>DELETE</u></strong>,<br>
+        s’applique sur tous les objets d’une table en l’absence de <strong><u>WHERE</u></strong>.</em>
+</ul>
+
+<strong>5 - Quelle commande permet de mettre à jour le budget de Skyfall ?</strong>
+<ul>
+    <li class="vrai">
+        <strong><strong><u>UPDATE `film` SET `budget` = 200500000 WHERE `nom` = “Skyfall”;</u></strong></strong>
+    <li class="faux">
+        <strong><strong><u>INSERT INTO `film` SET `budget` = 200500000 WHERE `nom` = “Skyfall”;</u></strong></strong>
+    </li><br>
+    <li class="faux">
+        <strong><strong><u>UPDATE `film` SET `budget` = 200500000 WHERE `nom` = “Titanic”;</u></strong></strong>
+    </li><br>
+    <em>La mise à jour d’un objet implique une commande <strong><u>UPDATE</u></strong>.<br>
+        <strong><u>SET</u></strong> sert à indiquer la colonne que l’on souhaite modifier, et avec quelle valeur.<br>
+        Ensuite, on utilise <strong><u>WHERE</u></strong> pour filtrer sur le bon film.</em>
+</ul>
+
+<strong>6 - Quelle commande permet de supprimer La La Land ?</strong>
+<ul>
+    <li class="faux">
+        <strong><strong><u>DELETE `film` WHERE `nom` = “La La Land”;</u></strong></strong>
+    <li class="vrai">
+        <strong><strong><u>DELETE FROM `film` WHERE `nom` = “La La Land”;</u></strong></strong>
+    </li><br>
+    <li class="faux">
+        <strong><strong><u>DELETE `film`;</u></strong></strong>
+    </li><br>
+    <em>Supprimer implique la commande <strong><u>DELETE</u></strong>,<br>
+        puis <strong><u>FROM</u></strong> pour signaler dans quelle table supprimer l’objet.<br>
+        Enfin, on filtre le bon objet avec <strong><u>WHERE</u></strong>.</em>
+</ul>
+
+<H2 class="quizz">Effectuez des requêtes SQL avancées</H2>
+Reprenons notre BDD Moviz du précédent quiz. Cette base doit contenir des films, or elle n’en contient actuellement aucun !<br>
+Si vous ne l’avez plus, voici le lien pour la télécharger : <a href="https://github.com/OpenClassrooms-Student-Center/Course-implementez-BDD-SQL/blob/master/partie_3/moviz.sql" target="_blank">Moviz.sql</a><br>
+En plus de la table <strong>“film”</strong> qui a évolué pour inclure la <strong><u>note_id</u></strong>,<br>
+j’ai rajouté les tables <strong>“note”</strong> <br>
+et <strong>“pays_de_sortie”</strong><br>
+ainsi que la table de liaison <strong>“film_pays_de_sortie”</strong>.<br>
+Il existe donc une relation un à plusieurs entre <strong>“film”</strong> et <strong>“note”</strong>,<br>
+et une relation plusieurs à plusieurs entre <strong>“film”</strong> et <strong>“pays_de_sortie”</strong>.<br><br>
+Voici le schéma mis à jour de la table “film” :
+<table>
+    <tr>
+        <th>Nom du champ</th>
+        <th>Type du champ</th>
+        <th>Description du champ</th>
+    </tr>
+    <tr>
+        <td>nom</td>
+        <td>VARCHAR(255)</td>
+        <td>le nom du film</td>
+    </tr>
+    <tr>
+        <td>date_de_sortie</td>
+        <td>DATE</td>
+        <td>la date de sortie du film</td>
+    </tr>
+    <tr>
+        <td>synopsis</td>
+        <td>TEXT</td>
+        <td>la description du scénario du film</td>
+    </tr>
+    <tr>
+        <td>langue</td>
+        <td>VARCHAR(255)</td>
+        <td>la langue principale du film</td>
+    </tr>
+    <tr>
+        <td>budget</td>
+        <td>INTEGER</td>
+        <td>le budget de production du film</td>
+    </tr>
+    <tr>
+        <td>note_id</td>
+        <td>INTEGER</td>
+        <td>l'id de l'objet note associé au film</td>
+    </tr>
+  </table><br>
+  Le schéma de la table “note” est disponible ici :
+  <table>
+    <tr>
+        <th>Nom du champ</th>
+        <th>Type du champ</th>
+        <th>Description du champ</th>
+    </tr>
+    <tr>
+        <td>note</td>
+        <td>INTEGER</td>
+        <td>la note sur 5</td>
+    </tr>
+  </table>
+  Le schéma de la table “pays_de_sortie” est disponible ici :
+  <table>
+    <tr>
+        <th>Nom du champ</th>
+        <th>Type du champ</th>
+        <th>Description du champ</th>
+    </tr>
+    <tr>
+        <td>nom</td>
+        <td>VARCHAR(255)</td>
+        <td>le nom du pays</td>
+    </tr>
+  </table>
+
+<strong>1 - Quelle est la commande qui permet de récupérer uniquement le film Skyfall ?</strong>
+<ul>
+    <li class="vrai" >
+        <strong><div class="code" style="color:green">
+            SELECT * FROM film WHERE nom LIKE “Skyfall”;
+        </div></strong>
+    </li><br><br>
+    <li class="faux" >
+        <strong><div class="code" style="color:red">
+            SELECT * FROM film WHERE id = 1;
+        </div></strong>
+    </li><br><br>
+    <li class="faux">
+        <strong><div class="code" style="color:red">
+            SELECT * FROM film ORDER BY nom = “Skyfall”;
+        </div></strong>
+    </li><br>
+
+    <em>Ici, on souhaite récupérer le film dont le nom est “Skyfall”.<br>
+        Filtrer se fait avec le mot clé <strong><u>WHERE</u></strong> auquel on ajoute la règle de comparaison.<br>
+        Ici, on cherche à matcher exactement le mot <strong><u>Skyfall</u></strong> sur la colonne <strong><u>nom</u></strong>,<br>
+        d’où l’utilisation de l’opérateur d’égalité.</em>
+</ul>
+
+
+<strong>2 - Quels sont les films dont le budget est supérieur ou égal à 100 000 000 $ ?</strong><br>
+<ul>
+    <li class="vrai">
+        Titanic et Skyfall
+    </li><br>
+    <li class="faux">
+        Titanic, Skyfall et La La Land
+    </li><br>
+    <li class="faux">
+        Titanic uniquement
+    </li><br>
+    <em>Ici, on souhaite récupérer plusieurs films selon un opérateur de comparaison sur la colonne <strong><u>budget</u></strong>.<br>
+        Il s’agit de l’opérateur supérieur ou égal <strong><u>>=</u></strong> qui se place lui aussi après un <strong><u>WHERE</u></strong>.<br>
+        La commande est donc :<br></em>
+        <div class="code">
+            SELECT * FROM film WHERE budget >= 100000000;
+        </div>.
+</ul>
+<strong>3 - Quels sont les films dont le synopsis contient le mot “histoire” ?</strong>    
+<ul>
+    <li class="faux">
+        <strong><u>Skyfall uniquement</u></strong>
+    </li><br>
+    <li class="faux">
+        <strong><u>Skyfall et La La Land</u></strong>
+    </li><br>
+    <li class="vrai">
+        <strong><u>Titanic et La La Land</u> </strong>
+    </li><br>
+    <em>Ici, ou souhaite récupérer plusieurs films dont la colonne <strong><u>synopsis</u></strong> contient le mot <strong>"histoire"</strong>.<br>
+        Pour ce faire, on utilise toujours un filtre après <strong><u>WHERE</u></strong>.<br>
+        Il s’agit du filtre <strong><u>LIKE</u></strong>, auquel on ajoute le texte à comparer,<br>
+        et on indique à MySQL que ce texte se situe au milieu d’une phrase grâce aux pourcentages avant et après le mot,<br>
+        soit <strong><u>%histoire%</u></strong>.<br>
+        La commande à taper est donc<br></em>
+        <div class="code">
+            SELECT * FROM film WHERE synopsis LIKE “%histoire%”;
+        </div> 
+</ul><br>
+<strong>4 -Combien y-a-t-il de films ?</strong>
+    
+<ul>
+    <li class="faux">
+        1
+    </li>
+    <li class="faux">2</li>
+        
+    <li class="vrai">
+        3
+    </li>
+    <em>Ici, on souhaite compter le nombre de films.<br>
+        Cela est possible grâce au mot clé <strong><u>COUNT</u></strong> qui, adossé à une commande <strong><u>SELECT</u></strong>,<br>
+        permet de retourner le nombre d’objets matchés.<br>
+        La commande à taper est<br></em>
+        <div class="code">
+            SELECT COUNT(*) FROM film;
+        </div>
+</ul><br>
+
+<strong>5 - Quels sont les mots clés permettant d’effectuer des opérations arithmétiques sur des requêtes SQL ?</strong>
+<ul>
+    <li class="vrai">
+        <strong><strong><u>SUM, AVG, MAX, MIN</u></strong></strong>
+    <li class="faux">
+        <strong><strong><u>SOMME, MOYENNE, MAXIMUM, MINIMUM</u></strong></strong>
+    </li><br>
+    <li class="faux">
+        <strong><strong><u>SUM, AVE, MAXI, MINI</u></strong></strong>
+    </li><br>
+    <em>Les mots clés disponibles sont <strong><u>SUM</u></strong> pour faire une somme,<br>
+        <strong><u>AVG</u></strong> pour faire une moyenne,<br>
+        <strong><u>MAX</u></strong> pour retrouver un maximum,<br>
+        <strong><u>MIN</u></strong> pour retrouver un minimum.</em>
+</ul><br>
+
+<strong>6 - Combien de films ont une note inférieure à 4 ?</strong>
+<ul>
+    <li class="vrai">
+        1
+    <li class="faux">
+        2
+    </li><br>
+    <li class="faux">
+        3
+    </li><br>
+    <em>Ici, il faut relier les tables <strong>“film”</strong> et <strong>“note”</strong> grâce au mot clé <strong><u>JOIN</u></strong>,<br>
+        en précisant à MySQL (grâce au mot clé <strong><u>ON</u></strong>) quelles sont les colonnes qui permettent de relier les deux tables<br>
+        (ici, l’id de chaque note, et la “note_id” de chaque film).<br>
+        La commande est donc<br></em>
+        <div class="code">
+            SELECT * FROM film JOIN note ON (film.note_id = note.id) WHERE note.note < 4;
+        </div> 
+</ul><br>
+<strong>7 - Qu’est-ce qu’une table de liaison ?</strong>
+<ul>
+    <li class="faux">
+        C’est une table qui permet de lier deux tables ayant une relation un à plusieurs entre elles.
+    <li class="vrai">
+        C’est une table qui permet de relier deux tables ayant une relation plusieurs à plusieurs entre elles.
+    </li><br>
+    <li class="faux">
+        C’est une table qui regroupe toutes les vues présentes dans une BDD.
+    </li><br>
+    <em>La table de liaison est une table qui permet de lier deux tables entre elles,<br>
+        en stockant des objets avec l’id de chaque table,<br>
+        afin d’en matérialiser les relations plusieurs à plusieurs<br>
+        sous forme de relations un à plusieurs.</em>
+</ul><br>
+<strong>8 - Sélectionnez les bonnes associations de films avec leurs pays de sortie.</strong>
+<ul>
+    <li class="faux">
+        Skyfall en France, Angleterre et USA.
+    <li class="vrai">
+        Titanic en France, USA et Allemagne.
+    </li><br>
+    <li class="faux">
+        La La Land aux USA uniquement.
+    </li><br>
+    <em>Ici, nous sommes face à une relation plusieurs à plusieurs.<br>
+        Il faut donc passer par la table de liaison <strong>“film_pays_de_sortie”</strong>,<br>
+        qu’on <strong><u>JOIN</u></strong> à la fois à <strong>film</strong> et à <strong>pays_de_sortie</strong>.<br>
+        La commande qui permet de vérifier la solution est donc :  </em><br>
+        <div class="code">
+            SELECT * FROM film<br>
+            JOIN film_pays_de_sortie ON (film.id = film_pays_de_sortie.film_id)<br>
+            JOIN pays_de_sortie ON (pays_de_sortie.id = film_pays_de_sortie.pays_de_sortie_id);<br>
+        </div>
+</ul>
+
+<H2 class="quizz">Transformez la structure d’une base de données</H2>
+Reprenons notre BDD Moviz du précédent quiz. Cette base doit contenir des films, or elle n’en contient actuellement aucun !<br>
+Si vous ne l’avez plus, voici le lien pour la télécharger : <a href="https://github.com/OpenClassrooms-Student-Center/Course-implementez-BDD-SQL/blob/master/partie_4/moviz.sql" target="_blank">Moviz.sql</a><br>
+Souvenez-vous, j’ai modifié le schéma de la BDD entre la partie 2 et la partie 3 pour y ajouter la relation un à plusieurs entre <strong>“film”</strong> et <strong>“note”</strong>,<br>
+ainsi que la relation plusieurs à plusieurs entre <strong>“film”</strong> et <strong>“pays_de_sortie”</strong>.<br><br>
+Voici le schéma mis à jour de la table “film” :
+<table>
+    <tr>
+        <th>Nom du champ</th>
+        <th>Type du champ</th>
+        <th>Description du champ</th>
+    </tr>
+    <tr>
+        <td>nom</td>
+        <td>VARCHAR(255)</td>
+        <td>le nom du film</td>
+    </tr>
+    <tr>
+        <td>date_de_sortie</td>
+        <td>DATE</td>
+        <td>la date de sortie du film</td>
+    </tr>
+    <tr>
+        <td>synopsis</td>
+        <td>TEXT</td>
+        <td>la description du scénario du film</td>
+    </tr>
+    <tr>
+        <td>langue</td>
+        <td>VARCHAR(255)</td>
+        <td>la langue principale du film</td>
+    </tr>
+    <tr>
+        <td>budget</td>
+        <td>INTEGER</td>
+        <td>le budget de production du film</td>
+    </tr>
+    <tr>
+        <td>note_id</td>
+        <td>INTEGER</td>
+        <td>l'id de l'objet note associé au film</td>
+    </tr>
+  </table><br>
+  Le schéma de la table “note” est disponible ici :
+  <table>
+    <tr>
+        <th>Nom du champ</th>
+        <th>Type du champ</th>
+        <th>Description du champ</th>
+    </tr>
+    <tr>
+        <td>note</td>
+        <td>INTEGER</td>
+        <td>la note sur 5</td>
+    </tr>
+  </table>
+  Le schéma de la table “pays_de_sortie” est disponible ici :
+  <table>
+    <tr>
+        <th>Nom du champ</th>
+        <th>Type du champ</th>
+        <th>Description du champ</th>
+    </tr>
+    <tr>
+        <td>nom</td>
+        <td>VARCHAR(255)</td>
+        <td>le nom du pays</td>
+    </tr>
+  </table>
+
+<strong>1 - Quels sont les mots clés disponibles dans une commande de type ALTER TABLE ?</strong>
+<ul>
+    <li class="vrai" >
+        ADD, DROP, CHANGE, MODIFY
+    </li><br><br>
+    <li class="faux" >
+        AJOUTER, SUPPRIMER, MODIFIER
+    </li><br><br>
+    <li class="faux">
+        ADD, DROP, CHANGE
+    </li><br>
+
+    <em><strong><u>ALTER TABLE</u></strong> sert à modifier la structure d’un objet, et de la table associée.<br>
+        <strong><u>ADD</u></strong> permet d’ajouter un champ,<br>
+        <strong><u>DROP</u></strong> de le supprimer,<br>
+        <strong><u>CHANGE</u></strong> de le renommer,<br>
+        <strong><u>MODIFY</u></strong> de modifier son type.</em>
+</ul>
+
+
+<strong>2 - Comment fait-on pour ajouter une relation un à plusieurs entre deux objets existants déjà en base ?</strong><br>
+<ul>
+    <li class="vrai">
+        On rajoute l’id de l’objet <strong>“un”</strong> comme colonne dans l’objet <strong>“plusieurs”</strong> avec comme nom <strong>“objet_id” </strong>> 
+    </li><br>
+    <li class="faux">
+        On utilise une commande SQL avec le mot clé <strong><u>JOIN</u></strong>.
+    </li><br>
+    <li class="faux">
+        On supprime et recrée les deux objets.
+    </li><br>
+    <em>Pour effectuer une relation un à plusieurs, l’objet “un” de la relation doit être mentionné dans l’objet “plusieurs”.<br>
+        La convention en SQL est de reprendre son id (sa clé primaire) comme clé étrangère dans l’objet plusieurs.</em>
+</ul>
+<strong>3 - Dans la BDD Moviz, quelle est la commande qui permet de rajouter le champ <strong><u>note_id</u></strong> à la table <strong>“film”</strong> ?</strong>    
+<ul>
+    <li class="faux">
+        <strong><u>ALTER TABLE film ADD note_id;</u></strong>
+    </li><br>
+    <li class="vrai">
+        <strong><u>ALTER TABLE film ADD note_id INTEGER NOT NULL;</u></strong>
+    </li><br>
+    <li class="faux">
+        <strong><u>ALTER TABLE film ADD note_id VARCHAR(100);</u> </strong>
+    </li><br>
+    <em>Pour ajouter un champ à un objet (et donc, à sa table), on utilise une commande de type <strong><u>ALTER TABLE</u></strong> avec le mot clé <strong><u>ADD</u></strong>.<br>
+        Comme on souhaite ajouter un champ qui sera une clé étrangère, il est du même type qu’une clé primaire, soit un entier (<strong><u>INTEGER</u></strong>) non nul (<strong><u>NOT NULL</u></strong>).</em>
+
+</ul><br>
+<strong>4 -Quelle est la commande qui permet de supprimer le budget sur les films ?</strong>
+    
+<ul>
+    <li class="faux">
+        <strong><u>ALTER TABLE film REMOVE budget;</u></strong>
+    </li><br>
+    <li class="vrai">
+        <strong><u>ALTER TABLE film DROP budget;</u></strong>
+    </li>
+    <li class="faux">
+        <strong><u>ALTER TABLE film DELETE budget;</u></strong>
+    </li><br>
+    <em>Pour supprimer un champ à un objet (et donc, à sa table), on utilise une commande de type <strong><u>ALTER TABLE</u></strong> avec le mot clé <strong><u>DROP</u></strong> suivi du nom du champ à supprimer.</em>
+
+</ul><br>
+
+<strong>5 - Quelle est la commande qui permet de modifier le type du champ “budget” d’entier vers décimal ?</strong>
+<ul>
+    <li class="vrai">
+        <strong><strong><u>ALTER TABLE film MODIFY budget FLOAT;</u></strong></strong>
+    <li class="faux">
+        <strong><strong><u>ALTER TABLE film MODIFY budget VARCHAR(100);</u></strong></strong>
+    </li><br>
+    <li class="faux">
+        <strong><strong><u>ALTER TABLE film CHANGE budget FLOAT;</u></strong></strong>
+    </li><br>
+    <em>Pour modifier le type d’un champ, on utilise une commande de type <strong><u>ALTER TABLE</u></strong> avec le mot clé <strong><u>MODIFY</u></strong> suivi du nom du champ et de son nouveau type (ici, décimal, soit <strong><u>FLOAT</u></strong>).</em>
+</ul><br>
+
+<strong>6 - Quelle est la commande qui permet de renommer le budget sur les films en “cout_de_production” ?</strong>
+<ul>
+    <li class="faux">
+        <strong><u>ALTER TABLE film CHANGE budget cout_de_production;</u></strong>
+    </li>
+    <li class="vrai">
+        <strong><u>ALTER TABLE film CHANGE budget cout_de_production FLOAT;</u></strong>
+    </li><br>
+    <li class="faux">
+        <strong><u>ALTER TABLE film MODIFY budget cout_de_production;</u></strong>
+    </li><br>
+    <em>Pour renommer un champ, on utilise une commande de type <strong><u>ALTER TABLE</u></strong> avec le mot clé <strong><u>CHANGE</u></strong> suivi du nom du champ et de son nouveau nom.<br>
+        MySQL oblige, on doit aussi repréciser son type (ici <strong><u>FLOAT</u></strong>, car on l’a modifié à la question précédente).</em>
+</ul><br>
+
+<strong>7 - Comment crée-t-on une relation plusieurs à plusieurs entre deux objets existants déjà en base ?</strong>
+<ul>
+    <li class="faux">
+        On supprime et recrée les deux tables.
+    <li class="vrai">
+        On crée une table de liaison qui va stocker les relations entre ces deux objets.
+    </li><br>
+    <li class="faux">
+        On joint les tables avec un <strong><u>JOIN</u></strong>.
+    </li><br>
+    <em>Rappelez-vous, la table de liaison regroupe les relations plusieurs à plusieurs comme s’il s’agissait de relations un à plusieurs.<br>
+        Pour ce faire, elle contient 2 colonnes, chacune étant une clé étrangère vers chaque objet de la relation plusieurs à plusieurs.</em>
+</ul><br>
+<strong>8 - Quelle est la commande qui permet de créer la table de liaison entre “film” et “pays_de_sortie” ?</strong>
+<ul>
+    <li class="vrai">
+        <div class="code">
+            CREATE TABLE film_pays_de_sortie (<br>
+            <br>
+            film_id INT NOT NULL,<br>
+            <br>
+            pays_de_sortie_id INT NOT NULL,<br>
+            <br>
+            FOREIGN KEY (film_id) REFERENCES film (id) ON DELETE RESTRICT ON UPDATE CASCADE,<br>
+            <br>
+            FOREIGN KEY (pays_de_sortie_id) REFERENCES pays_de_sortie (id) ON DELETE RESTRICT ON UPDATE CASCADE,<br>
+            <br>
+            PRIMARY KEY (film_id, pays_de_sortie_id)<br>
+            <br>
+            );<br>
+        </div><br>
+    <li class="faux">
+        <div class="code">
+            CREATE TABLE film_pays_de_sortie;
+        </div>
+    </li><br>
+    <li class="faux">
+        <div class="code">
+            CREATE TABLE film_pays_de_sortie (<br>
+            <br>
+            film_id INT NOT NULL,<br>
+            <br>
+            pays_de_sortie_id INT NOT NULL<br>
+            <br>
+            )<br>
+        </div><br>
+    </li><br>
+    <em>La table de liaison doit avoir pour nom “nom_objet_1_nom_objet_2”, soit ici “film_pays_de_sortie” et stocker deux champs,<br>
+         qui sont les clés étrangères de chaque autre table, soit ici “film_id” (clé étrangère vers l’id de “film”) et “pays_de_sortie_id” (clé étrangère vers l’id de “pays_de_sortie”).</em><br>
+ 
+</ul>
+
+
+</body>
+</html>
+
+

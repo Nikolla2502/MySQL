@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="media/logo.png">
+
+    <link rel="stylesheet" href="stylecours.css" />
+    <title>Commande SQL</title>
+</head>
+<body>
+    <h1 class="title">Commande MySQL</h1>
+    <div class="content">
+      <div class="sommaire">
+        <h2 id="sommaire">- Sommaire -</h2>
+        <ul class="list_sommaire">  
+            <li><strong><a href="#data_type">Table Types de données</a></strong></li>
+            <li><strong><a href="#like">Isoler : <strong><u>LIKE</u></strong></a></strong></li>
+            <li><strong><a href="#order_by">Ordonner : <strong><u>ORDER BY</u></strong></a></strong></li>
+            <li><strong><a href="#count">Compter des objets :<strong><u>COUNT</u></strong></a></strong></li>
+            <li><strong><a href="#create_view">Sauvegarder les requêtes :<strong><u>CREATE VIEW</u></strong></a></strong></li>
+            <li><strong><a href="#join">Implémenter des relations entre les données :<strong><u>JOIN</u></strong></a></strong></li>
+
+            
+            
+          </ul>
+        </div>
+        <div class="sommaire">
+          <h2>- Ressource -</h2>
+          <ul class="list_sommaire">
+          <li><strong><a href="index.html" target="_blank">Cours OC MySQL</a></strong></li>
+          <li><a href="https://www.mysql.com/fr/" target="_blank">MySQL</a></li>
+          <li><a href="https://dev.mysql.com/downloads/installer/" target="_blank">MySQL Install</a></li>
+          <li><a href="https://www.oracle.com/fr/database/" target="_blank">Oracle</a></li>
+          <li><a href="https://www.postgresql.org/" target="_blank">PostgreSQL</a></li>
+          <li><a href="https://www.sqlite.org/index.html" target="_blank">SQLite</a></li>
+          <li><a href="https://dev.mysql.com/doc/refman/8.0/en/data-types.html" target="_blank">SQL Data Types</a></li>
+          
+        </ul>
+      </div>
+    </div>
+    <h3 class="sommaire_fixed"><a href="#sommaire">Index</a></h3>
+    <ul id="data_type">Table Types de données
+      <li><strong><u>FLOAT</u></strong> signifie que le champ contiendra des chiffres décimaux ;</li>
+      <li><strong><u>BOOLEAN</u></strong> st un type de champ très connu en informatique.<br>
+       Il ne peut stocker que les valeurs  <strong><u>true</u></strong> (vrai) ou  <strong><u>false</u></strong> (faux);
+      </li>
+      <li>DEFAULT</li> sert à indiquer une valeur par défaut.<br> Utile pour ne pas avoir à spécifier une valeur tout le temps !
+    </ul><br>
+<ul>
+  <li><strong>Creer une BDD</strong><br>
+    <div class="code">
+      CREATE DATABASE nomdelabase; 
+    </div>
+  </li><br>
+  <li><strong>Selectionner une BDD</strong><br>
+    <div class="code">
+      USE nomdelabase;
+    </div>
+  </li><br>
+  <li><strong>Creer une table'utilisateur'</strong><br>
+    <div class="code">
+      CREATE TABLE utilisateur (<br>
+      <br>
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,<br>
+    <br>
+    nom VARCHAR(100),<br>
+    <br>
+    prenom VARCHAR(100),<br>
+    <br>
+    email VARCHAR(255) NOT NULL UNIQUE<br>
+    <br>
+    );<br>
+    </div>
+  </li><br>
+  <li>
+    Voici un tableau récapitulatif du schéma des utilisateurs :<br>
+
+<table>
+<tr>
+      <th>Nom du champ</th>
+      <th>Type du champ et options</th>
+      <th>Description</th>
+  </tr>
+  <tr>
+      <td><strong>id</strong></td>
+      <td>PRIMARY KEY (option)</td>
+      <td>Champ spécial <strong>obligatoire</strong> dans toutes les tables.<br>
+        Indique à MySQL que ce champ sera l'identifiant permettant d'identifier les objets.</td>
+  </tr>
+  <tr>
+      <td></td>
+      <td>INTEGER (type)</td>
+      <td>Champ numérique sous forme de nombre entier.</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>NOT NULL (option)</td>
+    <td>Ce champ ne peut pas être nul.</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>AUTO_INCREMENT (option)</td>
+    <td>Ce champ sera créé par MySQL automatiquement, pas besoin de s'en soucier !<br>
+      MySQL va utiliser l'id précédent et y ajouter +1 lors de l'ajout d'un nouvel objet.</td>
+  </tr>
+  <tr>
+    <td><strong>nom</strong></td>
+    <td>VARCHAR(100) (type)</td>
+    <td>Champ sous forme de texte,<br>
+       limité à 100 caractères.</td>
+  </tr>
+  <tr>
+    <td><strong>prenom</strong></td>
+    <td>VARCHAR(100) (type)</td>
+    <td>Champ sous forme de texte,<br>
+      limité à 100 caractères.</td>
+  </tr>
+  <tr>
+    <td><strong>email</strong></td>
+    <td>VARCHAR(255) (type)</td>
+    <td>Champ sous forme de texte,<br>
+      limité à 255 caractères.</td>
+  </tr>
+  <tr>
+    <td><strong></strong></td>
+    <td>NOT NULL (option)</td>
+    <td>Ce champ ne peut pas être nul.</td>
+  </tr>
+  <tr>
+    <td><strong></strong></td>
+    <td>UNIQUE (option)</td>
+    <td>Ce champ ne peut pas avoir la même valeur en double.</td>
+  </tr>
+</table><br>
+<ul>Proprietes disponibles
+  <li><strong><u>FLOAT</u></strong><br>
+    signifie que le champ contiendra des chiffres décimaux ;
+  </li><br>
+  <li><strong><u>BOOLEAN</u></strong><br>
+    est un type de champ très connu en informatique.<br>
+    Il ne peut stocker que les valeurs  <strong><u>true</u></strong>   (vrai) ou  <strong><u>false</u></strong>   (faux) ;
+  </li><br>
+  <li><strong><u>DEFAULT</u></strong><br>
+    sert à indiquer une valeur par défaut.<br>
+    Utile pour ne pas avoir à spécifier une valeur tout le temps !<br>
+    Ici, on indique que la valeur par défaut sera la valeur  <strong><u>false</u></strong>  .
+  </li><br>
+</ul><br>
+  </li><br>
+  <li><strong>Afficher les tables d'une BDD</strong><br>
+    <div class="code">
+      SHOW tables;
+    </div>
+  </li><br>
+  <li><strong>Ajouter une colonne 'langue' à la table'utilisateur'</strong><br>
+    <div class="code">
+      ALTER TABLE utilisateur<br> 
+      ADD COLUMN langue VARCHAR(100) NOT NULL;
+    </div>
+  </li><br>
+  <li><strong>Changer le nom de la colonne 'nom'  par 'nom_langue' dans la table 'langue'</strong><br>
+    <div class="code">
+      ALTER TABLE langue<br> 
+      CHANGE nom nom_langue VARCHAR(10) NOT NULL;
+    </div>
+  </li><br>
+  <li><strong>Changer le type VARCHAR(100) de la colonne 'nom'  par VARCHAR(250) dans la table 'langue'</strong><br>
+    <div class="code">
+      ALTER TABLE langue<br> 
+      MODIFY nom VARCHAR(250) NOT NULL;
+    </div>
+  </li><br>
+  <li><strong>Verifier les colonnes de la table 'utilisateur</strong><br>
+    <div class="code">
+      SHOW COLUMNS FROM utilisateur;
+    </div>
+  </li><br>
+  <li><strong>Ajouter un element dans la table 'utilisateur'</strong><br>
+    <div class="code">
+         INSERT INTO `utilisateur` (`nom`, `prenom`, `email`)<br>
+    <br>
+    VALUES<br>
+    <br>
+    ('Durantay', 'Quentin', 'quentin@gmail.com');<br> 
+    </div>
+  </li><br>
+  <li><strong>Ajouter plusieurs elements dans la table 'utilisateur'</strong><br>
+    <div class="code">
+      INSERT INTO `utilisateur` (`nom`, `prenom`, `email`)<br>
+      <br>
+    VALUES<br>
+    <br>
+    ('Doe', 'John', 'john@yahoo.fr'),<br>
+    <br>
+    ('Smith', 'Jane', 'jane@hotmail.com'),<br>
+    <br>
+    ('Dupont', 'Sebastien', 'sebastien@orange.fr'),<br>
+    <br>
+    ('Martin', 'Emilie', 'emilie@gmail.com');<br>
+    </div>
+  </li><br>
+  <li><strong>Afficher la table 'aliment'</strong><br>
+    <div class="code">SELECT * FROM aliment</div>
+  </li><br>
+  <li><strong>Afficher certaine colonnes 'utilisateur'</strong><br>
+    <div class="code">SELECT `nom`, `prenom`, `email` FROM utilisateur;</div>
+  </li><br>
+  <li><strong>Mettre à jour l'email du premier utilisateur</strong><br>
+    <div class="code">UPDATE utilisateur SET `email` = 'quentind@gmail.com' WHERE `id` = '1';</div>
+  </li><br>
+  <li><strong>Mettre à jour plusieurs champs</strong><br>
+    <div class="code">UPDATE utilisateur SET `nom`= 'Pascal', `email` = 'quentind@gmail.com' WHERE `id` = '1';</div>
+  </li><br>
+  <li><strong>Supprimer un utilisateur</strong><br>
+    <div class="code">
+      DELETE FROM utilisateur WHERE `id` = '2';
+    </div>
+  </li><br>
+  <li><strong>Selectionner selon des criteres</strong><br>
+    Utilisation de <div class="inner_code">WHERE</div><br>
+    <div class="code">
+      SELECT * FROM nomdelatable WHERE key = “value”;
+    </div><br>
+    <div class="important">
+      Vous pouvez appliquer  <strong><u>WHERE</u></strong>  à n’importe quelle colonne en utilisant le nom de cette colonne.<br>
+      À noter que  <strong><u>WHERE</u></strong>  peut s'exécuter avec  <strong><u>SELECT</u></strong>  ,
+      <strong><u>UPDATE</u></strong>
+      ou  <strong><u>DELETE</u></strong>
+    </div>
+  </li><br>
+  <li id='WHERE'><strong>Isoler plusieurs objets répondant à un critère de comparaison</strong><br>
+    <div class="code">
+      SELECT * FROM nomdelatable WHERE key < value;
+    </div><br>
+    Vous pouvez utiliser tous les opérateurs classiques, tels que :
+    <ul>
+      <li>supérieur à ( > ) ;</li>
+      <li>inférieur à ( < ) ;</li>
+      <li>supérieur ou égal à (>=) ;</li>
+      <li>et inférieur ou égal à (<=).</li>
+    </ul>
+  </li><br>
+  <li id='like'><strong>Isoler des objets à partir d’une comparaison sur du texte <strong><u>LIKE</u></strong></strong><br>
+    <div class="code">
+      SELECT * FROM utilisateur WHERE email LIKE “%gmail.com”;
+     </div><br>
+     va afficher tous les utilisateurs dont l’<strong>e-mail se termine par “gmail.com”</strong>.<br>
+     <ul><strong>Utilisation de "%"</strong>
+       <li><strong><u>%gmail.com</u></strong> : Texte se terminant par "gmail.com"</li>
+       <li><strong><u>gmail.com%</u></strong> : Texte commençant par "gmail.com"</li>
+       <li><strong><u>%gmail.com%</u></strong> : Texte contenant "gmail.com" au début ou à la fin</li>
+     </ul>
+  </li><br>
+  <li id='order_by'><strong>Ordonner les objets récupérés pour chaque requête <strong><u>ORDER BY</u></strong></strong><br>
+    Ce mot clé vous permet d’ordonner une colonne par ordre croissant (ascending en anglais, d’où le mot clé SQL <strong><u>ASC</u></strong>),<br>
+    ou décroissant (descending en anglais, soit le mot clé <strong><u>DESC</u></strong>).<br>
+    Afficher les elements par ordre croissant.<br>
+    <div class="code">
+      SELECT * FROM nomdelatable ORDER BY key ASC;
+    </div><br><br>
+     Afficher que les <strong>aliments dont les calories ne dépassent pas 90 kcal</strong>, mais de manière <strong>décroissante</strong> :<br>
+     <div class="code">
+       SELECT * FROM aliment WHERE calories < 90 ORDER BY calories DESC;
+     </div><br><br>
+     Cette commande fonctionne aussi avec le texte !<br>
+     Si vous effectuez un  <strong><u>ORDER BY</u></strong> sur une colonne de texte, celle-ci sera ordonnée :
+     <ul>
+       <li>soit dans l’ordre alphabétique (  <strong><u>ASC</u></strong>  ).<br>
+       <strong><u>SELECT * FROM utilisateurs ORDER BY prenom ASC;</u></strong><br>
+       affiche les utilisateurs avec les prénoms affichés par ordre alphabétique ;
+       </li><br>
+       <li>soit dans l’ordre opposé (  <strong><u>DESC</u></strong>  ).<br>
+         <strong><u>SELECT * FROM utilisateurs ORDER BY prenom DESC;</u></strong><br>
+         affiche les utilisateurs avec les prénoms affichés par ordre anti-alphabétique.
+       </li><br>
+     </ul>
+  </li><br>
+  <li id='count'><strong>Compter des objets <strong><u>COUNT</u></strong></strong><br>
+    <div class="code">
+      SELECT COUNT(*) FROM nomdelatable WHERE key LIKE "value";
+    </div><br><br>
+    <div class="remarque">
+      En appliquant un  <strong><u>COUNT(*)</u></strong>  , vous comptez le nombre d’objets.<br>
+      Mais vous pouvez aussi restreindre le comptage à une colonne spécifique en écrivant  <strong><u>COUNT(colonne)</u></strong> .<br>
+      Enfin, vous pouvez aussi compter le nombre d’éléments uniques d’une colonne avec  <strong><u>COUNT(DISTINCT colonne)</u></strong>  .
+    </div><br><br>
+    Par exemple,<strong><u>SELECT COUNT(*)FROM utilisateur;</u></strong> compte tous les utilisateurs,<br>
+    tandis que  <strong><u>SELECT COUNT(nom) FROM utilisateur;</u></strong>  compte tous les noms de famille.<br><br>
+    Ok, vous allez me dire qu’on trouve exactement le même nombre. Et c’est vrai.<br>
+    Compter dans une colonne prend vraiment son sens en comptant le nombre de valeurs distinctes.<br><br>
+    <strong><u>SELECT COUNT(DISTINCT nom) FROM utilisateur;</u></strong>  comptera uniquement les noms de familles différents, vous permettant de voir si certains utilisateurs ont le même nom !
+  </li><br>
+  <li><strong>Effectuez des opérations sur des données chiffrées</strong><br>
+    Envie de connaître le maximum de teneur en sucre des aliments dans notre base ?<br>
+    Rien de plus simple :<br>
+    <div class="code">
+      SELECT MAX(sucre) FROM aliment;
+    </div><br><br>
+    Quelle est la teneur moyenne en calories des aliments de 30 kcal ou plus ?<br>
+    <div class="code">
+      SELECT AVG(calories) FROM aliment WHERE calories >= 30;
+    </div><br>
+    <ul>
+      <li><strong><u>AVG</u></strong>  : nous donne la moyenne de la colonne sur la sélection ;</li>
+      <li><strong><u>SUM</u></strong>  : nous donne la somme de la colonne sur la sélection ;</li>
+      <li><strong><u>MAX</u></strong>  : nous donne le maximum de la colonne sur la sélection ;</li>
+      <li><strong><u>MIN</u></strong>  : nous donne le minimum de la colonne sur la sélection.</li>
+    </ul><br>
+    <ul>Exemple :
+      <li>
+      <div class="code">
+        SELECT COUNT(*) FROM aliment WHERE bio = false;
+      </div><br>
+      Compte le nombre d'aliment qui ne sont pas bio
+      </li><br>
+      <li>
+        <div class="code">
+          SELECT MAX(proteines) FROM aliment WHERE bio = false;
+        </div><br>
+        Selectionne l'aliment qui a le max de proteine qui n'est pas bio<br>
+         (et affiche le nombre de proteines)
+      </li><br>
+      <li>       
+        <div class="code">
+        SELECT MIN(proteines) FROM aliment WHERE bio = false;
+      </div><br>
+      Selectionne l'aliment qui a le moins de proteine qui n'est pas bio<br>
+       (et affiche le nombre de proteines)
+      </li><br>
+      <li>       
+        <div class="code">
+        SELECT AVG(proteines) FROM aliment WHERE bio = false;
+        </div><br>
+      Affiche la moyenne de proteines dans les aliments qui ne sont pas bio<br>
+       (et affiche le nombre de proteines)
+      </li>
+    </ul>
+  </li><br>
+  <li id='create_view'><strong>Sauvegarder les requêtes avec  <strong><u>CREATE VIEW</u></strong></strong><br>
+    Sauvegarder dans une vue la commande suivante : les utilisateurs dont l’adresse mail est une adresse Gmail:<br>
+    <div class="code">
+      CREATE VIEW utilisateurs_gmail_vw AS SELECT * FROM utilisateur WHERE email LIKE "%gmail.com";
+    </div><br>
+    Je viens de créer la vue <strong>“utilisateurs_gmail_vw”</strong>.<br>
+    Cette dernière s’utilise désormais comme une table.<br>
+    Ainsi, pour récupérer les utilisateurs avec une adresse Gmail, plus besoin d’écrire ma requête compliquée !<br>
+    Je n’ai plus qu’à écrire :<br>
+    <div class="code">
+      SELECT * FROM utilisateurs_gmail_vw;
+    </div><br>
+    <div class="remarque">
+      La convention chez les utilisateurs de SQL est de toujours préfixer le nom d’une vue avec “_vw”, pour la distinguer des “vraies” tables.
+    </div><br>
+    Afficher les utilisateurs dont l’adresse e-mail est une adresse Gmail ET dont le prénom contient la lettre “m” :<br>
+    <div class="code">
+      SELECT * FROM utilisateurs_gmail_vw WHERE prenom LIKE "%m%";
+    </div><br>
+    Créer une vue reprenant notre liste des aliments non bio, classés par contenance en protéines (de manière décroissante).<br><br>
+    <div class="code">
+      CREATE VIEW aliments_non_bio_vw AS SELECT * FROM aliment WHERE bio = false ORDER BY proteines DESC;
+    </div><br>
+  </li><br>
+
+  <li id='join'><strong>Implémenter des relations entre les données grâce à  <strong><u>JOIN</u></strong></strong><br>
+    <strong>Relation 1 à plusieurs</strong><br>
+      Afin de pouvoir s’adapter à chacun, l’application va devoir <strong>stocker la langue préférée</strong> de chaque utilisateur.<br>
+      Pour ce faire, la table “langue” a été rajoutée à la base de données.<br>
+      Chaque utilisateur est relié à une langue.<br>
+      Et chaque langue peut être reliée à plusieurs utilisateurs.<br>
+      <div class="important">
+        On parle alors d’une relation 1 à plusieurs entre utilisateur et langue (one-to-many, en anglais).
+      </div><br><br>
+      Pour matérialiser une telle relation dans une base SQL telle que MySQL, on suit un principe assez simple :
+      <ol>
+        <li>Dans ce cas spécifique, une langue est reliée à plusieurs utilisateurs.<br>
+          On crée donc cet objet normalement, comme vous avez pu le faire précédemment.<br>
+        <div class="code">
+          INSERT INTO `langue` VALUES ('français');
+        </div>
+        </li><br>
+        <li>Chaque utilisateur se voyant relié à une langue,<br>
+          c’est l’utilisateur qui va devoir stocker l’<strong>id unique</strong> de la langue associée.<br>
+          Par convention, on utilise comme nom de ce champ  <strong><u>{nom de l’objet associé}_id</u></strong>  (donc ici,  <strong><u>langue_id</u></strong>  ).
+        </li><br>
+        <li></li><br>
+      </ol>
+      Les utilisateurs de la base de données mise à jour dans la partie 2 ont ainsi un champ  <strong><u>langue_id</u></strong>  , où est stocké l’<strong>id de la langue</strong> qu’ils souhaitent utiliser.<br>
+      <div class="remarque">
+        Par exemple, le premier utilisateur a comme <strong><u>langue_id</u></strong> 1, soit l’id du français dans la table des langues.
+      </div><br><br>
+      Imaginez désormais qu’on vous demande de ressortir toutes les langues utilisées par les 10 premiers utilisateurs, ou tous les utilisateurs ayant configuré Foodly en anglais.<br>
+      <div class="important">
+        Il existe une commande qui est justement là pour régler ce genre de problème.<br>
+         La commande <strong><u>JOIN</u></strong>.
+      </div><br><br>
+      Grâce à cette commande, vous allez pouvoir <strong>expliquer à MySQL comment joindre deux tables selon un identifiant qu’elles ont en commun</strong>.<br>
+      Partons du principe que :
+      <ul>
+        <li>la langue_id du premier utilisateur est le français ;</li><br>
+        <li>l’id du français est 1.</li><br>
+      </ul>
+      Vous allez spécifier à MySQL de joindre les tables “utilisateur” et “langue” en lui précisant que l’id de langue et langue_id de l’utilisateur doivent êtres égaux !<br><br>
+      Prenons un exemple.<br>
+      Regardons tous les utilisateurs avec les langues qui leur sont associées.<br>
+      Tapez cette commande dans votre terminal :<br>
+      <div class="code">
+        SELECT * FROM `utilisateur`<br>
+        <br>
+      JOIN `langue`<br>
+      <br>
+      ON `utilisateur`.`langue_id` = `langue`.`id`;<br>
+      </div><br>
+      Que s’est-il passé dans cette commande ?<br>
+      <ul>
+        <li>Nous avons demandé à MySQL de sélectionner tous les utilisateurs.<br>
+          <strong><u>SELECT * FROM `utilisateur`</u></strong>
+        </li><br>
+        <li>Auxquels nous voulons joindre les langues.<br>
+          <strong><u>JOIN `langue`</u></strong></li><br>
+        <li>En précisant à MySQL de les relier, en considérant que l’<strong>id de la langue </strong>est stockée dans chaque utilisateur dans le champ <strong>langue_id</strong>.<br>
+          <strong><u>ON `utilisateur`.`langue_id` = `langue`.`id`</u></strong></li><br>
+      </ul>
+    </li><br><br>
+    <strong>Relation plusieurs à plusieurs</strong><br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ul>
+</body>
+</html>

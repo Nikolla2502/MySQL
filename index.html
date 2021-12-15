@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="media/logo.png">
+
+    <link rel="stylesheet" href="stylecours.css" />
+    
+    <title>SQL</title>
+  </head>
+
+  <body>
+
+    <div class="title">Implémentez vos bases de données relationnelles avec SQL</div>
+
+    <div class="content">
+      <div class="sommaire">
+        <h2 id="sommaire">- Sommaire -</h2>
+        <ul class="list_sommaire">  
+            <li><strong><a href="#sgbd">1.1 - Découvrez le système de gestion de base de données (SGBD) -</a></strong></li>
+            <li><strong><a href="#MySQL_install">1.2 - Installez le SGBD MySQL -</a></strong></li>
+            <li><strong><a href="#bdd">1.3 - Créez votre base de données (BDD) -</a></strong></li>
+            <li><strong><a href="#BDD_data_insert">2.1 - Insérez des données dans votre BDD -</a></strong></li>
+            <li><strong><a href="#BDD_data_select">2.2 - Sélectionnez les données présentes dans votre BDD -</a></strong></li>
+            <li><strong><a href="#update_BDD">2.3 - Mettez à jour les données de votre BDD -</a></strong></li>
+            <li><strong><a href="#delete_BDD">2.4 - Supprimez des objets dans votre BDD -</a></strong></li>
+            <li><strong><a href="#extract_data">3.1 - Extrayez des informations spécifiques de votre BDD -</a></strong></li>
+            <li><strong><a href="#count">3.2 - Effectuez des opérations et sauvegardez vos requêtes -</a></strong></li>
+            <li><strong><a href="#join">3.3 - Implémentez des relations entre vos données grâce à JOIN -</a></strong></li>
+            <li><strong><a href="#alter_table">4.1 - Modifiez la structure d’un objet avec ALTER TABLE -</a></strong></li>
+            <li><strong><a href="#relation_un_plusieurs">4.2 - Ajoutez une relation un à plusieurs -</a></strong></li>
+            <li><strong><a href="#relation_plusieurs_plusieurs">4.3 - Ajoutez une relation plusieurs à plusieurs -</a></strong></li>
+            <li><strong><a href="CommandeSQL.html" target="_blank">Commande MySQL</a></strong></li>
+            <li><strong><a href="quizz.html" target="_blank">Quiz MySQL</a></strong></li>
+
+
+        </ul>
+      </div>
+      <div class="sommaire">
+        <h2>- Ressource -</h2>
+        <ul class="list_sommaire">
+          <li><a href="https://www.mysql.com/fr/" target="_blank">MySQL</a></li>
+          <li><a href="https://dev.mysql.com/downloads/installer/" target="_blank">MySQL Install</a></li>
+          <li><a href="https://www.oracle.com/fr/database/" target="_blank">Oracle</a></li>
+          <li><a href="https://www.postgresql.org/" target="_blank">PostgreSQL</a></li>
+          <li><a href="https://www.sqlite.org/index.html" target="_blank">SQLite</a></li>
+          <li><a href="https://dev.mysql.com/doc/refman/8.0/en/data-types.html" target="_blank">SQL Data Types</a></li>
+          
+        </ul>
+        <h2>- Cours et Tutos -</h2>
+        <ul class="list_sommaire">
+          <li><a href="https://www.youtube.com/watch?v=qrmLVJBJ-D4&list=PLjwdMgw5TTLUJLpzUYGBK7K5-hPgZA7zo" target="_blank">Grafikart - Tuto MySQL YouTube</a></li>
+          <li><a href="https://grafikart.fr/tutoriels/introduction-1093#autoplay" target="_blank">Grafikart - Tuto MySQL</a></li>
+
+          
+        </ul>
+      </div>
+    </div>
+    <h3 class="sommaire_fixed"><a href="#sommaire">Index</a></h3>
+    <h2 id="sgbd">1.1 - Découvrez le système de gestion de base de données (SGBD) -</h2> 
+
+    <h3>Découvrez votre mission dans ce cours</h3>
+    Dans ce cours, nous allons créer ensemble une base de données (BDD) pour une application imaginaire, Foodly.<br>
+    Cette application permet à des internautes de sélectionner les aliments qu’ils souhaitent acheter pour voir leur composition en protéines, graisses, sucres, etc.<br>
+    <figure>
+      <img src="media/1_Foodly-logo_static.png" alt="foodly">
+    </figure><br>
+    <div class="remarque">
+      J’utiliserai tout au long du cours l'abréviation <strong>BDD pour base de données</strong>.<br>
+      Vous découvrirez quelques autres abréviations que je vous expliquerai au fur et à mesure, mais c’est surtout celle-ci que vous devez retenir pour l’instant !
+    </div><br>
+    La BDD de Foodly va donc stocker les données dont l’application a besoin pour fonctionner, à savoir  :
+    <ul>
+      <li>
+        les utilisateurs inscrits ; 
+      </li><br>
+      <li>
+        les aliments disponibles.
+      </li><br>
+    </ul>
+Chacune de ces données aura des caractéristiques, comme l’e-mail pour l’utilisateur ou les calories pour les aliments.<br>
+Nous allons les voir par la suite.<br>
+<figure>
+  <img src="media/2_présentation-fil-rouge_static.png" alt="foodly">
+  <figcaption>Les données utilisateur et aliment à stocker dans la BDD Foodly</figcaption>
+</figure><br>
+À la fin de ce cours, vous aurez créé plusieurs utilisateurs en base, de nombreux aliments, ainsi qu’un moyen de lier les utilisateurs aux aliments qu’ils ont achetés.<br>
+Avant de mettre les mains dans le cambouis, on doit passer par une partie pas forcément plaisante, mais indispensable : le choix et l’installation de notre système de gestion de bases de données.<br>
+Car sans lui, pas de BDD.<br><br>
+Installer des logiciels sur son ordinateur n’est pas la chose la plus drôle.<br>
+Pour avoir dû installer deux fois d’affilée toutes les librairies (petits programmes qui nous permettent de coder) sur mon ordinateur professionnel, après me l’être fait voler, je peux vous l’assurer, personne n’aime ça.<br>
+Je vous promets de faire au mieux pour rendre cela plaisant et aller droit au but.<br><br>
+Votre objectif une fois cette partie finie : être capable de choisir votre système de gestion de base de données et de l’installer.
+
+<h3>Choisissez votre SGBD</h3>
+<strong>Le SGBD est le logiciel qui va vous permettre de manipuler les données d’une base</strong>.<br>
+C’est ce logiciel qui commande les interactions avec votre base pour y récupérer, ajouter, modifier ou supprimer des données.<br>
+Pour échanger avec votre base, vous allez donc donner des ordres à votre SGBD.<br>
+Des ordres en français ?<br>
+Pas exactement !<br>
+Ces ordres, vous allez les lui donner dans un langage très simple : <strong>le langage SQL</strong>.<br>
+Pas d’inquiétude, on va avancer pas à pas ensemble pour que vous puissiez prendre en main ce langage !<br>
+Le SQL, abréviation de Structured Query Language (en français, langage de requête structurée), est un langage informatique qui vous permet d'interagir avec vos bases de données.<br>
+C’est le plus répandu ; par conséquent il est indispensable de le connaître.<br>
+On va donc s’en servir pour gérer notre base de données pour la suite du cours.<br><br>
+Imaginez qu’un utilisateur arrive sur Foodly.<br>
+Il scanne un aliment présent dans son supermarché pour connaître ses caractéristiques nutritionnelles.<br>
+Que va faire notre application ?<br>
+L’application va traduire cette recherche en SQL et l’envoyer au SGBD, qui va récupérer l’aliment en question dans le stockage de la base de données, pour ensuite le redonner à l’application.<br>
+L’utilisateur retrouvera ainsi son aliment avec toutes ses caractéristiques.<br>
+<figure>
+  <img src="media/3_Lien-SGBD-SQL_static.png" alt="">
+  <figcaption>La relation entre le langage SQL et le SGBD lors d'une action sur l'application</figcaption>
+</figure><br>
+Chaque SGBD implémente sa propre syntaxe du SQL en plus des normes communes à tous.<br>
+Vous vous demandez sûrement pourquoi il existe différents SGBD et comment en choisir un plutôt qu’un autre.<br>
+C’est exactement ce que je vais vous expliquer dans la suite de ce chapitre.<br><br>
+
+<h3>Découvrez les différents SGBD</h3>
+<ul>
+  <li><strong>MySQL</strong><br>
+  <strong><a href="https://www.mysql.com/fr/" target="_blank">MySQL</a> est le plus connu des SGBD</strong> .<br>
+  C’est le plus utilisé, car il était (auparavant) open-source (ce qui veut dire que son code et son utilisation étaient gratuits).<br>
+  J’insiste sur le “auparavant”, car MySQL a depuis été racheté par Oracle Corporation, et n’est plus open-source.<br>
+  Néanmoins, il en existe une “copie” open-source appelée MariaDB, qui suit les mêmes règles de langage que MySQL (et que je vous recommande).<br>
+  MySQL est surtout connu pour être le SGBD utilisé par les sites WordPress, ce qui a fait grandement augmenter sa popularité.<br>
+  Malgré cette popularité, c’est un peu la “tête de mule” des SGBD.<br>
+  Il ne suit pas rigoureusement la syntaxe préconisée par le SQL.<br>
+  Il est aussi parfois trop “permissif” sur les requêtes SQL, provoquant des erreurs.<br>
+  Mais c’est un SGBD robuste, qui fonctionne très bien, même sur de grandes quantités de données !<br>
+  Par exemple, c’était pendant longtemps le seul SGBD utilisé par Facebook.
+  </li><br>
+  <li><strong>Oracle Database</strong><br>
+    <strong><a href="https://www.oracle.com/fr/database/" target="_blank">Oracle</a> est le SGBD édité par Oracle Corporation</strong> .<br>
+    C’est très cher, mais utile pour traiter un très gros volume de données.<br>
+    Du coup, ce sont presque exclusivement les grandes entreprises qui l’utilisent.<br>
+    Mais même en entreprise (il est par exemple utilisé par Samsung), Oracle tend à se faire rattraper par les SGBD open-source type MariaDB ou PostgreSQL.<br>
+    Il est en réelle perte de vitesse sur le marché.
+  </li><br>
+  <li><strong>PostgreSQL</strong><br>
+    <strong><a href="https://www.postgresql.org/" target="_blank">PostgreSQL</a> est “l’autre” grand SGBD open-source disponible sur le marché.</strong> .<br>
+    Moins utilisé que MySQL car longtemps confiné au monde linuxien (système d’exploitation Linux), et plus obscur aux yeux des débutants.<br>
+    Mais c’est en train de changer car c’est le SGBD qui suit le plus les recommandations du SQL, ainsi que le plus rapide (ces dernières années).<br>
+    Il est notamment utilisé par Instagram ou par Spotify.
+  </li><br>
+  <li><strong>SQLite</strong><br>
+    <strong><a href="https://www.sqlite.org/index.html" target="_blank">SQLite</a> c’est le “petit frère”. Mais petit ne veut pas dire moins puissant, bien au contraire.</strong> .<br>
+    À l’instar des autres SGBD, SQLite stocke toute la base de données dans un seul et unique fichier.<br>
+    Peu propice à l’utilisation sur un grand nombre de données, c’est un SGBD très simple à configurer et qui “ne prend pas la tête”.<br>
+    C’est d’ailleurs le SGBD qu’on utilise quand on développe une base de données “en local” (sur son ordinateur), alors qu’une fois “en production” (sur un serveur spécifique généralement utilisé par votre entreprise ou vos clients), on va utiliser MySQL ou PostgreSQL.<br>
+    C’est aussi le SGBD utilisé par vos applications Android (par exemple pour vos films Netflix en mode hors-connexion) pour stocker de la donnée !
+  </li><br>
+</ul>
+Pour vous aider, voici un tableau récapitulatif des forces et faiblesses de chaque SGBD :<br>
+<table>
+  <tr>
+      <th></th>
+      <th>MySQL</th>
+      <th>Oracle Database</th>
+      <th>PostgreSQL</th>
+      <th>SQLite</th>
+  </tr>
+  <tr>
+      <td>Popularité</td>
+      <td>très répandu</td>
+      <td>Utilisé par les grands groupes<br> ayant un grand nombre de données</td>
+      <td>moins répandu que les autres</td>
+      <td>répandu pour le prototypage</td>
+  </tr>
+  <tr>
+      <td>Prix</td>
+      <td>gratuit (licence fermée)</td>
+      <td>très cher (licence fermée)</td>
+      <td>gratuit (open-source)</td>
+      <td>gratuit (open-source)</td>
+  </tr>
+  <tr>
+    <td>Similarité avec le langage SQL</td>
+    <td>ne suit pas toujours la syntaxe SQL</td>
+    <td>ne suit pas toujours la syntaxe SQL</td>
+    <td>suit la syntaxe SQL de très près</td>
+    <td>suit la syntaxe SQL de très près</td>
+  </tr>
+  <tr>
+    <td>Entreprises utilisatrices</td>
+    <td>utilisé par Facebook</td>
+    <td>utilisé par Samsung</td>
+    <td>utilisé par Spotify</td>
+    <td>utilisé pour les apps Android</td>
+  </tr>
+</table><br>
+<h3>En résumé</h3>
+<ul>
+  <li>Le langage SQL sert à communiquer entre votre application et votre base de données.<br>
+    Mais c’est le SGBD qui récupère la commande en SQL pour en sortir de la donnée depuis la base.</li><br>
+  <li>MySQL est un système de gestion de bases de données (SGBD).<br>
+    C’est même le plus répandu sur le marché.</li><br>
+</ul>
+
+  <h5><a href="#sommaire">Sommaire</a></h5>
+
+  <h2 id="MySQL_install">1.2 - Installez le SGBD MySQL -</h2>
+
+  <h3>Installez MySQL sur Windows</h3>
+  <h4>1.Téléchargez le programme d’installation de MySQL et lancez-le</h4>
+  Rendez-vous sur <a href="https://dev.mysql.com/downloads/installer/" target="_blank">https://dev.mysql.com/downloads/installer/</a> et sélectionnez le programme d’installation à télécharger.<br>
+  <div class="remarque">
+    Je vous conseille de télécharger le deuxième programme (la version “community”),<br>
+     qui dispose d’options supplémentaires par rapport au premier (la version “web”).
+  </div><br>
+  <figure>
+    <img src="media/4_MySQL_install.png" alt="">
+    <figcaption>Écran d'installation MySQL</figcaption>
+  </figure><br>
+  Une fois le programme téléchargé, lancez-le en double-cliquant dessus ; vous devriez arriver sur cette fenêtre :<br>
+  <figure>
+    <img src="media/5_MySQL_install_2.png" alt="">
+    <figcaption>Fenêtre d'acceptation des conditions générales</figcaption>
+  </figure><br>
+  Sur l’écran suivant, on vous demandera de faire un choix.<br>
+   Sélectionnez “Developer Default” pour installer MySQL dans son entièreté.<br>
+   <figure>
+    <img src="media/6_MySQL_install_3.png" alt="">
+    <figcaption>Sélection du paramétrage par défaut</figcaption>
+  </figure><br>
+  <div class="remarque">
+    Les autres options sont utiles si vous utilisez MySQL via un outil externe,<br>
+    ou que vous avez déjà votre base de données.<br>
+    Cliquez ensuite sur Suivant.
+  </div><br>
+  Une fois arrivé sur la dernière étape, validez et c’est bon, MySQL est installé sur votre machine !<br>
+  Il nous reste maintenant à le lancer.
+
+  <h4>2.Lancez MySQL sur votre ordinateur</h4>
+  Pour lancer MySQL sur Windows, double-cliquez sur la console MySQL.<br>
+  Celle-ci doit avoir apparu dans vos programmes, suite à l’installation précédente.<br>
+  Une fois celle-ci lancée, vous vous retrouvez dans un terminal.<br>
+  C’est ici que vous allez pouvoir gérer votre future base de données.
+
+  <h4>3.Créez le mot de passe de l’utilisateur root de votre BDD</h4>
+  Avant de pouvoir lancer MySQL, il vous faut créer un utilisateur dit root, qui sera l’utilisateur nous permettant de manipuler notre BDD.<br>
+  <p>En informatique, et notamment dans le monde des bases de données, l’utilisateur dit “root” (ou racine) est un utilisateur qui a tous les droits (création, suppression, mise à jour).<br>
+     C’est celui qu’on utilise pour installer des logiciels sur notre machine.<br>
+      Mais attention à ne jamais l’utiliser en production !<br>
+    En effet, il serait très dangereux qu’un utilisateur puisse l’utiliser, car il obtiendrait l’accès à toutes nos données.</p>
+    <div class="remarque">
+      “Utiliser en production” désigne l’utilisation de votre base par votre application, depuis un serveur.<br>
+      Alors que “l’utilisation en local” signifie l’utilisation sur votre ordinateur, à des fins de développement uniquement.
+    </div><br>
+    Pour créer le mot de passe “root”, utilisez la commande  <strong><u>mysqladmin -u root password 'votresupermotdepassetrescomplique'</u></strong>   (vous l’aurez compris, remplacez le mot de passe par celui que vous aurez choisi).<br>
+    Vous pouvez vous féliciter, vous venez d’installer MySQL sur votre Windows !
+
+    <h3>Installez MySQL sur Mac</h3>
+    La manière la plus simple et efficace pour installer MySQL sur Mac est de passer par Homebrew.
+    <h4>1.Installez le gestionnaire Homebrew</h4>
+    Homebrew est un gestionnaire de paquets.<br>
+    C’est un petit programme que vous pouvez utiliser dans votre terminal pour installer toutes sortes de choses.<br>
+    C’est le gestionnaire open-source le plus répandu sur Mac.<br>
+    Très polyvalent, il va vous permettre d’installer MySQL sur votre machine.<br>
+    Mais il peut aussi vous permettre d’installer toutes sortes de programmes, allant de navigateurs comme Google Chrome à des langages de programmation comme Python !<br><br>
+    Pour installer Homebrew, rendez-vous sur le site web de Homebrew : <a href="https://brew.sh/index_fr" target="_blank">https://brew.sh/index_fr</a><br>
+    <figure>
+      <img src="media/7_homebrew.png" alt="">
+      <figcaption>La page d’accueil de Homebrew</figcaption>
+    </figure><br>
+    <ul>
+      <li>Ouvrez votre terminal (j’utilise iTerm2, disponible ici : <a href="https://iterm2.com/" target="_blank">https://www.iterm2.com/</a>; mais vous pouvez utiliser le terminal natif de votre Mac). </li><br>
+      <li>Copiez-collez la ligne de commande disponible sur le site dans votre terminal et appuyez sur “enter”.<br>
+        À l’heure actuelle, cette ligne de commande est :<br>
+        <strong><u>/bin/bash -c "$(curl -<br>
+        fsSL <a href="https://raw.githubusercontent.com/Homebrew/install/master/install.sh" target="_blank">https://raw.githubusercontent.com/Homebrew/install/master/install.sh)”</a></u></strong> <br>
+        <figure>
+          <img src="media/7_bin_bash.png" alt="">
+          <figcaption>La commande dans votre terminal</figcaption>
+        </figure>
+       </li><br>
+    </ul>
+    L’installation de Homebrew devrait se lancer.<br>
+    Une fois celle-ci terminée, vous pouvez vérifier que l’installation s’est bien déroulée en tapant  <strong><u>brew help</u></strong>  .<br>
+    Vous devriez voir ceci apparaître sur votre terminal :<br>
+    <figure>
+      <img src="media/9_brewhelp.png" alt="">
+      <figcaption>Données affichées dans votre terminal</figcaption>
+    </figure><br>
+    L’écran liste les commandes disponibles via Homebrew.<br>
+    <div class="remarque">
+      Si ce n’est pas le cas, tentez de réinstaller Homebrew.<br>
+      Soyez sûr d’avoir une connexion Internet fiable, et que votre compte utilisateur a les privilèges administrateur.
+    </div><br>
+    <h4>2.Installez MySQL via Homebrew</h4>
+    Maintenant que Homebrew est installé, il est temps d’installer MySQL !<br>
+    Pour ce faire, rien de plus simple : utilisez la commande d’installation de Homebrew : <br>
+    <strong><u>brew install [le nom de ce qu’on souhaite installer]</u></strong> <br>
+    <div class="remarque">
+      La commande complète pour installer MySQL est donc  <strong><u>brew install mysql</u></strong>.<br>
+      Appuyez sur <span class="keyboard">enter</span> pour la valider.
+    </div><br>
+    Vous venez d’installer MySQL, mais il vous faut encore le démarrer !<br>
+    Ne désespérez pas, c’est encore une fois très simple, et tout se fait via Homebrew.
+    <h4>3.Démarrez MySQL avec Homebrew</h4>
+    Pour que Homebrew puisse démarrer des processus (ici, celui de MySQL), utilisez la commande  <strong><u>brew tap homebrew/services</u></strong> .<br>
+    Une fois cette commande effectuée, démarrez MySQL grâce à la commande  <strong><u>brew services start mysql</u></strong>  .<br>
+    Pour vérifier que le processus de MySQL est bien lancé, utilisez <strong><u>brew services list</u></strong>.<br>
+    Si vous voyez apparaître MySQL dans la liste, c’est que tout s’est bien passé !<br>
+    Vous pouvez même le vérifier doublement en tapant la commande  <strong><u>mysql -V</u></strong>  qui vous permet de regarder quelle version de MySQL est actuellement en train de tourner sur votre machine (dans mon cas, la version 8.0.21).<br>
+    <figure>
+      <img src="media/10_MySQL_mac_install.png" alt="">
+      <figcaption>Écran confirmant l’installation de Homebrew</figcaption>
+    </figure><br>
+    <h4>4.Créez le mot de passe de l’utilisateur root de votre BDD</h4>
+    Il vous reste une ultime commande et le tour est joué !<br>
+    C’est celle qui vous permet de créer le mot de passe de l’utilisateur “root”.<br>
+    <p>En informatique, et notamment dans le monde des bases de données, l’utilisateur dit “root” (ou racine) est un utilisateur qui a tous les droits (création, suppression, mise à jour).<br>
+      C’est celui qu’on utilise pour installer des logiciels sur notre machine.<br>
+       Mais attention à ne jamais l’utiliser en production !<br>
+     En effet, il serait très dangereux qu’un utilisateur puisse l’utiliser, car il obtiendrait l’accès à toutes nos données.</p>
+     <div class="remarque">
+       “Utiliser en production” désigne l’utilisation de votre base par votre application, depuis un serveur.<br>
+       Alors que “l’utilisation en local” signifie l’utilisation sur votre ordinateur, à des fins de développement uniquement.
+     </div><br>
+     Pour créer le mot de passe “root”, utilisez la commande  <strong><u>mysqladmin -u root password 'votresupermotdepassetrescomplique'</u></strong>   (vous l’aurez compris, remplacez le mot de passe par celui que vous aurez choisi).<br>
+     <figure>
+      <img src="media/11_MySQL_root_user.png" alt="">
+      <figcaption>La commande dans votre terminal</figcaption>
+    </figure><br>
+     Vous pouvez vous féliciter, vous venez d’installer MySQL sur votre Mac !
+
+     <h3>Installez MySQL sur Linux (Ubuntu)</h3>
+     La manière la plus simple et efficace pour installer MySQL sur Linux est de passer par le terminal.<br>
+     Le terminal, c’est un programme qui vous permet de lancer des commandes de programmation (vous savez, le fameux écran avec du texte bizarre comme dans Matrix).<br>
+     Il se trouve dans vos programmes (il est installé par défaut sur Linux).<br>
+     <h4>1.Installez MySQL via le terminal</h4>
+     Sur Linux, la vie est très simple car vous disposez d’un super gestionnaire de paquets : APT.<br>
+     C’est un petit programme que vous pouvez utiliser dans votre terminal pour installer toutes sortes de choses.<br>
+     Très polyvalent, il va vous permettre d’installer MySQL sur votre machine.<br>
+     Mais il peut aussi vous permettre d’installer toutes sortes de programmes, comme par exemple des langages de programmation comme Python !<br><br>
+     Commencez par mettre à jour APT en tapant dans votre terminal la commande  <strong><u>sudo apt update</u></strong>  .<br>
+     Appuyez sur <span class="keyboard">enter</span> pour la valider.<br>
+     Une fois cette commande effectuée, installez MySQL en tapant la commande<br>
+     <strong><u>sudo apt install mysql-community-server</u></strong>.<br>
+     MySQL est  maintenant installé sur votre machine, il reste à le démarrer et le configurer.
+     <h4>2.Démarrez MySQL avec le terminal</h4>
+     Pour démarrer MySQL, il vous faut lancer le “service” de MySQL.<br>
+     C’est-à-dire faire comprendre à votre ordinateur qu’il doit lancer MySQL et le laisser tourner.<br>
+      Pour ce faire, entrez la commande <strong><u>sudo service mysql start</u></strong> dans votre terminal.<br>
+    MySQL tourne (enfin 🙌🏼), mais il vous reste à le configurer.
+    <h4>3.Créez le mot de passe de l’utilisateur root de votre BDD</h4>
+    Il vous reste une ultime commande et le tour est joué !<br>
+    C’est celle qui vous permet de créer le mot de passe de l’utilisateur “root”.<br>
+    <p>En informatique, et notamment dans le monde des bases de données, l’utilisateur dit “root” (ou racine) est un utilisateur qui a tous les droits (création, suppression, mise à jour).<br>
+      C’est celui qu’on utilise pour installer des logiciels sur notre machine.<br>
+       Mais attention à ne jamais l’utiliser en production !<br>
+     En effet, il serait très dangereux qu’un utilisateur puisse l’utiliser, car il obtiendrait l’accès à toutes nos données.</p>
+     <div class="remarque">
+       “Utiliser en production” désigne l’utilisation de votre base par votre application, depuis un serveur.<br>
+       Alors que “l’utilisation en local” signifie l’utilisation sur votre ordinateur, à des fins de développement uniquement.
+     </div><br>
+     Pour créer le mot de passe “root”, utilisez la commande  <strong><u>mysqladmin -u root password 'votresupermotdepassetrescomplique'</u></strong>   (vous l’aurez compris, remplacez le mot de passe par celui que vous aurez choisi).<br>
+     <figure>
+      <img src="media/12_MySQL_root_user.png" alt="">
+      <figcaption>La commande dans votre terminal</figcaption>
+    </figure><br>
+     Vous pouvez vous féliciter, vous venez d’installer MySQL sur votre Linux !
+    <h3>En résumé</h3>
+    La première chose à faire pour utiliser un SGBD est de créer un utilisateur “root”, qui aura tous les droits pour créer et modifier des bases de données.
+
+    <h5><a href="#sommaire">Sommaire</a></h5>
+
+    <h2 id="bdd">1.3 - Créez votre base de données (BDD) -</h2> 
+
+    <h3>Créez votre BDD avec CREATE DATABASE</h3>
+    Une application, c’est le code informatique qui vous permet d’effectuer des actions.<br>
+    Par exemple, commander un taxi ou écrire du texte.<br>
+    Or, cette application a besoin de données pour exister, données qu’elle va piocher dans une BDD.<br><br>
+    <div class="remarque">
+      Prenez Le Bon Coin : le code de l’application vous permet de voir des listes d’objets à acheter près de chez vous, de contacter leur propriétaire, etc.<br>
+      Mais pour connaître ces objets, numéros de téléphone, adresses, Le Bon Coin a dû aller les chercher dans une base de données (probablement MySQL 😉).
+    </div><br><br>
+    Créons la base qui contiendra nos objets.
+    <ul>
+      <li>Dans une BDD, on stocke plusieurs choses.<br>
+         Et même un peu ce qu’on veut. Un objet, c’est chacune de ces “choses”.<br>
+         Imaginons que vous soyez au marché. Un objet, c’est une volaille, un fruit, etc.
+        </li><br>
+        <li>
+          Si on reprend notre exemple de l’application Foodly, une pomme ou une poire sont chacune une instance d’un objet “fruit”.
+        </li><br>
+    </ul>
+    Chaque application est associée à une base de données.<br>
+    Foodly étant une seule et unique application, nous allons créer une seule BDD.<br>
+    Base qu’on va tout naturellement appeler… Foodly. <br><br>
+    <div class="remarque">
+      Une application complexe peut être reliée à plusieurs BDD à la fois, et ce, pour plusieurs raisons.<br>
+      Par exemple, Facebook utilise plusieurs BDD pour des besoins spécifiques (certaines gèrent mieux la recherche, les autres le stockage…),<br>
+      mais surtout pour des raisons de taille de la donnée !<br>
+      Vous vous doutez qu’avec plus d’un milliard d’utilisateurs, il leur faut plusieurs bases.
+    </div><br>
+    <div class="important">
+      Attention lorsqu’on nomme les bases de données !<br>
+      Tout comme beaucoup de “noms” en informatique (variables, objets, identifiants…), ceux-ci ne doivent pas contenir de caractères spéciaux ou d’espaces.<br>
+      Il est même recommandé de n’utiliser que des caractères minuscules.
+    </div><br><br>
+    Pour activer MySQL dans votre terminal, il va falloir exécuter la commande<br>
+     <strong><u>mysql -u root -p</u></strong> .<br>
+     Cette commande signale que vous souhaitez lancer MySQL, avec l’utilisateur root en saisissant le mot de passe (vous vous en souvenez ? Nous en avons parlé précédemment).<br>
+     Justement, MySQL nous demande ledit mot de passe.<br>
+     Entrez celui que vous avez créé précédemment, et le tour est joué !<br><br>
+     <figure>
+      <img src="media/13_MySQL_start.png" alt="">
+      <figcaption>Écran du terminal suite à l’entrée de votre mot de passe</figcaption>
+    </figure><br><br>
+    Pour créer une base, on utilise la commande  <strong><u>CREATE DATABASE nomdelabase;</u></strong>  .<br>
+    Pour créer la base de Foodly, la commande à taper devient  <strong><u>CREATE DATABASE foodly;</u></strong>.<br>
+    <figure>
+      <img src="media/14_MySQL_create_database.png" alt="">
+      <figcaption>Écran du terminal après avoir saisi la commande</figcaption>
+    </figure><br><br>
+<div class="remarque">
+  SQL vous indique que la commande a fonctionné en répondantQuery OK .
+</div><br><br>
+Il reste néanmoins un problème : MySQL ne sait pas que vous souhaitez spécifiquement utiliser cette base de données.<br>
+Car vous pourriez en avoir plusieurs !<br>
+Imaginez que vous travailliez sur plusieurs projets à la fois, vous pourriez très bien avoir une base de données pour chacun.<br>
+Pour sélectionner la base que vous venez de créer, utilisez la commande  <strong><u>USE nomdelabase;</u></strong>  , qui devient donc…  <strong><u>USE foodly;</u></strong> 
+<figure>
+  <img src="media/14_MySQL_create_database.png" alt="">
+  <figcaption>Écran du terminal pour l’utilisation de la BDD</figcaption>
+</figure><br><br>
+Une fois  <strong><u>USE foodly;</u></strong>   exécutée, ça y est, la base Foodly est sélectionnée et vous travaillez uniquement dans cette dernière.<br><br>
+<div class="important">
+  Si jamais vous aviez besoin de changer de base de données, alors vous devriez répéter cette commande pour passer sur la nouvelle base.
+</div><br><br>
+<video src="media/1_creation_database.mp4" controls width="800"></video><br/><br/>
+
+<h3>Testez l’activation de votre BDD avec SHOW TABLES</h3>
+Pour tester l’activation de votre base de données, vous allez y insérer votre premier objet.<br>
+Dans son état actuel, votre base vide ne vous sert pas à grand-chose...
+<h4>Définissez les types de données</h4>
+Avant de pouvoir insérer quoi que ce soit, vous devez d’abord créer une table.<br>
+En effet, chaque “table” est l’équivalent d’une feuille de travail dans un logiciel type Excel ou Google Sheets, qui stocke toutes les occurrences d’un objet en particulier.<br>
+Qui dit base de données dit type de données.<br>
+MySQL doit savoir quelle forme auront vos objets avant de vous laisser les manipuler dans chaque table.<br>
+C’est l’équivalent en SQL de la modélisation de bases de données où vous devez déclarer les objets que vous souhaitez stocker et ce qu’ils vont contenir.<br><br>
+<div class="remarque">
+  Le type de donnée est comme un papier d'identité.<br>
+  Il est commun à toutes les personnes d’un pays et permet de les identifier selon des critères précis.<br>
+  Le modèle de données, c’est pareil, mais pour chaque objet de la base de données.
+</div><br><br>
+Quand on parle de type en base de données, on peut parler de deux types :
+<ul>
+  <li><strong>Les types d’objets, catégorisés par leur nom.</strong><br>
+    Par exemple, vous avez ici deux objets dont les noms sont utilisateur et aliment.<br>
+    La convention veut qu’on utilise des noms en minuscules et au singulier.
+  </li><br>
+  <li><strong>Les types de champs</strong><br>
+    dont on va parler juste après.
+  </li><br>
+</ul><br><br>
+Je vous propose de copier-coller cette commande pour créer la table des utilisateurs.<br>
+Je vais ensuite vous l’expliquer, ne vous en faites pas.<br>
+<div class="code">
+  CREATE TABLE utilisateur (<br>
+  <br>
+  id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,<br>
+  <br>
+  nom VARCHAR(100),<br>
+  <br>
+  prenom VARCHAR(100),<br>
+  <br>
+  email VARCHAR(255) NOT NULL UNIQUE<br>
+  <br>
+  );<br>
+</div><br>
+On obtient bien  <strong><u>Query OK</u></strong>, donc tout s’est bien passé.<br>
+<strong>Votre objet utilisateur va être composé de plusieurs caractéristiques, aussi appelées champs</strong>.<br>
+ Tout comme votre passeport qui recense votre nom ou votre âge, eh bien, pour vos utilisateurs, on va faire de même.<br>
+Chacun de ces champs doit avoir un type, pour que MySQL comprenne à quoi “va ressembler” la donnée qui sera stockée dans ce champ.<br>
+Par exemple, est-ce que le champ contiendra du texte, des chiffres, etc.
+Ici, on déclare plusieurs champs qui seront partagés par tous les utilisateurs.<br>
+Voici un tableau récapitulatif du schéma des utilisateurs :<br>
+
+<table>
+<tr>
+      <th>Nom du champ</th>
+      <th>Type du champ et options</th>
+      <th>Description</th>
+  </tr>
+  <tr>
+      <td><strong>id</strong></td>
+      <td>PRIMARY KEY (option)</td>
+      <td>Champ spécial <strong>obligatoire</strong> dans toutes les tables.<br>
+        Indique à MySQL que ce champ sera l'identifiant permettant d'identifier les objets.</td>
+  </tr>
+  <tr>
+      <td></td>
+      <td>INTEGER (type)</td>
+      <td>Champ numérique sous forme de nombre entier.</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>NOT NULL (option)</td>
+    <td>Ce champ ne peut pas être nul.</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>AUTO_INCREMENT (option)</td>
+    <td>Ce champ sera créé par MySQL automatiquement, pas besoin de s'en soucier !<br>
+      MySQL va utiliser l'id précédent et y ajouter +1 lors de l'ajout d'un nouvel objet.</td>
+  </tr>
+  <tr>
+    <td><strong>nom</strong></td>
+    <td>VARCHAR(100) (type)</td>
+    <td>Champ sous forme de texte,<br>
+       limité à 100 caractères.</td>
+  </tr>
+  <tr>
+    <td><strong>prenom</strong></td>
+    <td>VARCHAR(100) (type)</td>
+    <td>Champ sous forme de texte,<br>
+      limité à 100 caractères.</td>
+  </tr>
+  <tr>
+    <td><strong>email</strong></td>
+    <td>VARCHAR(255) (type)</td>
+    <td>Champ sous forme de texte,<br>
+      limité à 255 caractères.</td>
+  </tr>
+  <tr>
+    <td><strong></strong></td>
+    <td>NOT NULL (option)</td>
+    <td>Ce champ ne peut pas être nul.</td>
+  </tr>
+  <tr>
+    <td><strong></strong></td>
+    <td>UNIQUE (option)</td>
+    <td>Ce champ ne peut pas avoir la même valeur en double.</td>
+  </tr>
+</table><br>
+Une option dans un champ est un attribut optionnel qui va modifier le comportement de ce champ.<br>
+Retrouvez sur le site de MySQL tous les types de champs disponibles sur le <a href="https://dev.mysql.com/doc/refman/8.0/en/data-types.html" target="_blank">SGBD</a> (en anglais).<br><br>
+Au tour des aliments !<br>
+Copiez-collez cette commande pour créer leur table.<br><br>
+<div class="code">
+  CREATE TABLE aliment (<br>
+  <br>
+id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,<br>
+<br>
+nom VARCHAR(100) NOT NULL,<br>
+<br>
+marque VARCHAR(100),<br>
+<br>
+sucre FLOAT,<br>
+<br>
+calories INTEGER NOT NULL,<br>
+<br>
+graisses FLOAT,<br>
+<br>
+proteines FLOAT,<br>
+<br>
+bio BOOLEAN DEFAULT false<br>
+<br>
+);<br>
+</div><br><br>
+<ul>
+  <li><strong><u>FLOAT</u></strong><br>
+    signifie que le champ contiendra des chiffres décimaux ;
+  </li><br>
+  <li><strong><u>BOOLEAN</u></strong><br>
+    est un type de champ très connu en informatique.<br>
+    Il ne peut stocker que les valeurs  <strong><u>true</u></strong>   (vrai) ou  <strong><u>false</u></strong>   (faux) ;
+  </li><br>
+  <li><strong><u>DEFAULT</u></strong><br>
+    sert à indiquer une valeur par défaut.<br>
+    Utile pour ne pas avoir à spécifier une valeur tout le temps !<br>
+    Ici, on indique que la valeur par défaut sera la valeur  <strong><u>false</u></strong>  .
+  </li><br>
+</ul><br>
+Et pour les champs, c’est assez simple :
+<ul>
+  <li><strong>id</strong><br>
+    l'identification de l'objet ;
+  </li><br>
+  <li><strong>nom</strong><br>le nom de l’aliment (ex. : lait de soja) ;</li><br>
+  <li><strong>marque</strong><br>sa marque (ex. : Bjorg) ;</li><br>
+  <li><strong>sucre, calories, graisses, proteines</strong><br>la contenance de chaque élément en grammes (ex. : “2” pour 2 grammes) ;</li><br>
+  <li><strong>bio</strong><br>si l’aliment est bio ou non.</li><br>
+</ul>
+Voici un exemple de ce que donnerait cette table avec quelques aliments :<br>
+<table>
+  <tr>
+      <th>id</th>
+      <th>nom</th>
+      <th>marque</th>
+      <th>calories</th>
+      <th>sucre</th>
+      <th>graisses</th>
+      <th>proteines</th>
+      <th>bio</th>
+  </tr>
+  <tr>
+      <td>1</td>
+      <td>Pomme</td>
+      <td>Monoprix</td>
+      <td>65</td>
+      <td>14,4</td>
+      <td>0,4</td>
+      <td>0,4</td>
+      <td>FALSE</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>Oeuf Bio</td>
+    <td>Carrefour</td>
+    <td>167</td>
+    <td>0</td>
+    <td>11,1</td>
+    <td>14,2</td>
+    <td>TRUE</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>Brique de lait</td>
+    <td>Intermarché</td>
+    <td>414</td>
+    <td>43,2</td>
+    <td>13,5</td>
+    <td>28,8</td>
+    <td>FALSE</td>
+  </tr>
+</table><br>
+Pour vérifier que tout ce que vous avez fait fonctionne, rien de plus simple !<br>
+On demande à MySQL de nous afficher toutes les tables présentes dans notre base grâce à la commande  <strong><u>SHOW tables;</u></strong>.<br>
+<figure>
+  <img src="media/15_MySQL_show_table.png" alt="">
+  <figcaption>Écran du terminal après avoir saisi la commande SHOW tables</figcaption>
+</figure><br>
+On peut même aller encore plus loin en demandant à MySQL de nous afficher le schéma de chaque table grâce à la commande  <strong><u>SHOW COLUMNS FROM lenomdematable;</u></strong>.<br>
+Pour lire le schéma de vos tables, il vous faut taper  <strong><u>SHOW COLUMNS FROM utilisateur;</u></strong><br>
+   et  <strong><u>SHOW COLUMNS FROM aliment;</u></strong>.<br>
+   Si vous obtenez le même résultat que sur ces screenshots, c’est que vous avez tout bon !<br><br>
+   <figure>
+    <img src="media/16_MySQL_show_utilisateur.png" alt="">
+    <figcaption></figcaption>
+  </figure>
+  <figure>
+    <img src="media/17_MySQL_show_aliment.png" alt="">
+    <figcaption>Affichage des schémas des tables utilisateur et aliment</figcaption>
+  </figure><br>
+  Vous avez saisi ces nouvelles commandes dans votre terminal ? Vérifiez-les grâce au screencast récapitulatif<br>
+  <video src="media/2_verif_database.mp4" controls width="800"></video><br/><br/>
+
+<div class="important">
+Lors des parties suivantes, je vous demanderai parfois de télécharger un fichier afin de mettre votre BDD à jour.<br>
+Pour ce faire, j’ai créé un projet GitHub disponible ici : <a href="https://github.com/OpenClassrooms-Student-Center/Course-implementez-BDD-SQL" target="_blank">Github</a><br>
+À chaque fois que vous souhaiterez mettre à jour votre BDD :
+<ul>
+  <li>
+    Téléchargez le fichier correspondant depuis GitHub, chaque dossier sur GitHub représentant la partie du cours dans laquelle vous vous trouvez.
+  </li><br>
+  <li>
+    Placez ce fichier dans le dossier correspondant à votre utilisateur Windows, Mac ou Linux.
+  </li><br>
+  <li>
+    Allez dans votre terminal, entrez la commande  <strong><u>mysql -u root -p nom_de_la_base_de_donnees < nom_du_fichier.sql</u></strong><br>
+    puis tapez votre mot de passe root (que vous venez de créer dans cette partie !).<br>
+    Prenez bien soin de remplacer “nom_de_la_base_de_donnees” par le nom de la BDD que vous souhaitez mettre à jour (par exemple, foodly)<br>
+    et “nom_du_fichier” par le nom du fichier téléchargé (par exemple, foodly.sql).
+  </li><br>
+</ul>
+</div><br>
+Et voilà, votre BDD est à jour !
+
+<h3>En résumé</h3>
+<ul>
+  <li>Pour créer une base de données, on utilise la commande  <strong><u>CREATE DATABASE;</u></strong>  .</li><br>
+  <li>Une table est un espace dans votre base de données qui va stocker des objets de même type. On la crée avec la commande  <strong><u>CREATE TABLE;</u></strong>  </li><br>
+  <li>Pour vérifier la création des tables, on utilise la commande  <strong><u>SHOW COLUMNS FROM table;</u></strong>   qui permet de voir la structure de cette table.</li><br>
+</ul>
+
+
+<h5><a href="#sommaire">Sommaire</a></h5>
+
+  <h2 id="BDD_data_insert">2.1 - Insérez des données dans votre BDD -</h2>
+  <figure>
+    <img src="media/18_CRUD.png" alt="">
+    <figcaption>L’acronyme CRUD où MAJ signifie Mettre À Jour</figcaption>
+  </figure><br>
+  Commencez d'abord par télécharger la base de donnée <a href="https://github.com/OpenClassrooms-Student-Center/Course-implementez-BDD-SQL/blob/master/partie_2/foodly.sql" target=_blank">Foodly</a> de cette partie 2.
+
+  <h3>Insérez des objets uniques pour alimenter votre BDD</h3>
+  Première étape : vous allez ajouter un utilisateur à votre BDD, car une application sans utilisateurs n’est pas une BDD.<br>
+  Imaginez qu’un nouvel utilisateur s’inscrive sur Foodly.<br>
+  Comment l’application ferait-elle pour inscrire cet utilisateur dans la base MySQL ?<br>
+  <div class="remarque">
+    Elle utiliserait la commande <strong><u>SQLINSERT INTO</u></strong>.<br>
+    Cette commande prend en compte :
+<ul>
+  <li>les paramètres de la table dans laquelle vous souhaitez ajouter l’objet (ici la table “utilisateur”) ;</li><br>
+  <li>l’ordre des colonnes (ou caractéristiques de l’objet) ;</li><br>
+  <li>ainsi que les valeurs correspondantes pour l’objet.</li><br>
+</ul>
+</div><br>
+<img src="media/19_insert.png" alt="">
+<figcaption>Insertion d’un utilisateur dans la BDD de Foodly</figcaption>
+</figure><br>
+Souvenez-vous, votre table “utilisateur” dispose de 4 champs :<br>
+<table>
+<tr>
+      <th>Nom du champ</th>
+      <th>Descriptif du champ</th>
+      <th>Exemple de valeur</th>
+  </tr>
+  <tr>
+      <td>id</td>
+      <td>identifiant unique de l'utilisateur dans la BDD</td>
+      <td>1</td>
+  </tr>
+  <tr>
+      <td>nom</td>
+      <td>nom de famille de l'utilisateur</td>
+      <td>Durantay</td>
+  </tr>
+  <tr>
+      <td>prenom</td>
+      <td>prénom de l'utilisateur</td>
+      <td>Quentin</td>
+  </tr>
+  <tr>
+      <td>email</td>
+      <td>email de l'utilisateur</td>
+      <td>quentin@gmail.com</td>
+  </tr>
+</table><br>
+<div class="remarque">
+  Remarquez que je ne me préoccupe pas de l’id.<br>
+  Je pourrais tout à fait le renseigner.<br>
+  Mais souvenez-vous, nous l’avons configuré de manière à ce que MySQL l’auto-incrémente pour nous.<br>
+  Du coup, soyons fainéants et laissons MySQL gérer ce paramètre pour nous !
+</div><br><br>
+Voici, par exemple, la commande pour m’ajouter en tant qu’utilisateur dans la base :<br>
+<div class="code">
+  INSERT INTO `utilisateur` (`nom`, `prenom`, `email`)<br>
+  <br>
+VALUES<br>
+<br>
+('Durantay', 'Quentin', 'quentin@gmail.com');<br>
+</div><br>
+<div class="important">
+  Si vous exécutez cette commande plusieurs fois, vous remarquerez  un message d’erreur.<br>
+  C’est tout à fait normal.<br>
+   Souvenez-vous, l’e-mail d’un utilisateur a été configuré dans le schéma de la table comme une valeur unique.<br>
+  Vous ne pouvez donc pas créer un 2e utilisateur avec le même e-mail.
+</div><br><br>
+Voyons ensemble ce qui vient de se passer :
+<ol>
+  <li>On indique en SQL qu’on souhaite ajouter un objet avec <strong><u>INSERT INTO</u></strong>.</li><br>
+  <li>On écrit ensuite le nom de la table dans laquelle on souhaite ajouter l’objet, ici <strong><u>'utilisateur'</u></strong>.</li><br>
+  <li>On écrit ensuite entre parenthèses la liste des colonnes que l’on va ajouter, ainsi que leur ordre.</li><br>
+  <li>On ajoute le mot clé SQL <strong><u>VALUES</u></strong> qui indique qu’on va ensuite déclarer les valeurs que l’on souhaite ajouter.</li><br>
+  <li>On écrit la liste des valeurs de l’objet qu’on souhaite ajouter, dans le même ordre que les colonnes citées en 3.</li><br>
+</ol>
+
+<h3>Insérez plusieurs objets à la fois</h3>
+Vous avez désormais une application avec un utilisateur, mais il va vous en falloir plusieurs !<br>
+Je ne sais pas vous, mais je trouve ça fastidieux d’avoir à écrire une commande pour chaque utilisateur que j’ajoute.<br><br>
+SQL a pensé à nous !<br>
+Il est possible d’ajouter plusieurs objets en une seule commande en séparant leurs valeurs par des virgules,<br>
+comme dans la commande ci-dessous grâce à laquelle j’ajoute 4 utilisateurs à la BDD :<br>
+<div class="code">
+  INSERT INTO `utilisateur` (`nom`, `prenom`, `email`)<br>
+  <br>
+VALUES<br>
+<br>
+('Doe', 'John', 'john@yahoo.fr'),<br>
+<br>
+('Smith', 'Jane', 'jane@hotmail.com'),<br>
+<br>
+('Dupont', 'Sebastien', 'sebastien@orange.fr'),<br>
+<br>
+('Martin', 'Emilie', 'emilie@gmail.com');<br>
+</div><br><br>
+Dans les faits, vous allez user et abuser de cette commande pour ajouter différents objets dans votre base.<br>
+Réutilisons-la justement pour ajouter des aliments.<br><br>
+Souvenez-vous, la table “aliment” est constituée des colonnes suivantes :<br>
+<table>
+  <tr>
+      <th>Nom du champ</th>
+      <th>Descriptif du champ</th>
+      <th>Exemple de valeur</th>
+  </tr>
+  <tr>
+      <td>id</td>
+      <td>identifiant unique de l'aliment dans la BDD</td>
+      <td>1</td>
+  </tr>
+  <tr>
+      <td>nom</td>
+      <td>nom de l'aliment</td>
+      <td>poire</td>
+  </tr>
+  <tr>
+      <td>marque</td>
+      <td>marque de l'aliment</td>
+      <td>Monoprix</td>
+  </tr>
+  <tr>
+      <td>calories</td>
+      <td>nombre de calories contenues dans l'aliment (en kcal)</td>
+      <td>72</td>
+  </tr>
+  <tr>
+      <td>sucre</td>
+      <td>la concentration en sucre de l’aliment (en grammes)</td>
+      <td>19,1</td>
+  </tr>
+  <tr>
+      <td>graisses</td>
+      <td>la concentration en graisses de l’aliment (en grammes)</td>
+      <td>0,2</td>
+  </tr>
+  <tr>
+      <td>proteines</td>
+      <td>la concentration en protéines de l’aliment (en grammes)</td>
+      <td>0,4</td>
+  </tr>
+</table><br>
+Voici la commande pour ajouter les aliments poire, pomme, œuf et lait d’amande à notre BDD :<br>
+<div class="code">
+  INSERT INTO `aliment` (`nom`, `marque`, `sucre`, `calories`, `graisses`, `proteines`,`bio`)<br>
+  <br>
+VALUES<br>
+<br>
+('poire', 'monoprix', 27.5, 134, 0.2, 1.1, FALSE),<br>
+<br>
+('pomme', 'monoprix', 19.1, 72, 0.2, 0.4, FALSE),<br>
+<br>
+('oeuf', 'carrefour', 0.6, 82, 5.8, 6.9, FALSE),<br>
+<br>
+('lait d\'amande', 'bjorg', 4.5, 59, 3.9, 1.1, TRUE);<br>
+</div><br>
+<div class="remarque">
+  Vous vous demandez sûrement pourquoi certaines valeurs sont entre guillemets simples, d’autres entre backticks (`) et certaines sans rien.
+</div><br>
+<figure>
+  <img src="media/20_syntax_bdd.png" alt="">
+  <figcaption>La rédaction des valeurs selon leur type</figcaption>
+</figure><br>
+Les explications sont simples :
+<ul>
+  <li>Pour signaler à SQL des noms de tables ou colonnes, utilisez des backticks.</li><br>
+  <li>Pour les valeurs de type texte (souvenez-vous, les types <strong>TEXT</strong> ou <strong>VARCHAR</strong>), vous devez les écrire entre guillemets.<br>
+     Si un guillemet est présent dans le texte (comme dans l’exemple plus haut avec <strong><u>'lait d\'amande'</u></strong>), vous devez mettre un backslash (\) avant ce dernier pour dire à SQL qu’il fait partie intégrante de la valeur.</li><br>
+  <li>Pour le reste (les valeurs de type <strong>BOOLEAN</strong>, <strong>INTEGER</strong> ou <strong>FLOAT</strong>), pas besoin de guillemets !</li><br>
+</ul><br>
+<h3>À vous de jouer !</h3>
+Essayez maintenant de créer un nouvel aliment.<br>
+Partons sur une boîte de conserve de haricots verts.<br>
+En voici les données nutritionnelles :<br>
+<table>
+  <tr>
+      <th>nom</th>
+      <th>marque</th>
+      <th>calories</th>
+      <th>sucre</th>
+      <th>graisses</th>
+      <th>proteines</th>
+      <th>bio</th>
+  </tr>
+  <tr>
+      <td>haricots verts</td>
+      <td>Monoprix</td>
+      <td>25</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1,7</td>
+      <td>FALSE</td>
+  </tr>
+</table><br>
+À partir de ce tableau, j’aimerais que vous ajoutiez cet aliment dans la BDD de Foodly.<br>
+Regardez bien comment nous nous y sommes pris jusqu’ici.<br>
+<video src="media/3_insert_items_database.mp4" controls width="800"></video><br/><br/>
+<h3>En résumé</h3>
+<ul>
+  <li>On ajoute un objet à une table avec la commande <strong><u>INSERT INTO</u></strong>.</li><br>
+  <li>Lors de l’utilisation de cette commande, on mentionne quelles sont les colonnes (et dans quel ordre) que l’on va remplir.<br>
+     Et on les sépare par des virgules.</li><br>
+  <li>On peut ajouter un ou plusieurs objets à la fois, là aussi, en les séparant par des virgules.</li><br>
+</ul>
+
+<h5><a href="#sommaire">Sommaire</a></h5>
+
+  <h2 id="BDD_data_select">2.2 - Sélectionnez les données présentes dans votre BDD -</h2> 
+
+  <h3>Lisez les objets que vous venez de créer</h3>
+  Vous venez d’ajouter vos premières données dans votre BDD, c’est top !<br>
+  Mais à quoi cela servirait si vous ne pouvez pas les récupérer par la suite ?<br><br>
+  Reprenons l’exemple de l’application Foodly.<br>
+  L’objectif des utilisateurs de cette application est de savoir quelle est la composition des aliments qu’ils envisagent d’acheter.<br>
+  C’est bien beau d’avoir une BDD, mais encore faut-il que l’application puisse y lire les objets.<br><br>
+  C’est ce à quoi on va s’attaquer dans ce chapitre...<br>
+  Nous allons voir ensemble les commandes qui vous permettent de récupérer et lire la donnée contenue dans la base de Foodly.<br>
+  Commençons par une question simple : comment faire pour afficher tous les utilisateurs présents dans votre BDD ?<br>
+  Comme pour les commandes d’insertion, vous allez devoir indiquer la table dans laquelle vous souhaitez récupérer la donnée, ici “utilisateur”.<br><br>
+  <div class="remarque">
+    Le mot clé pour récupérer et lire de la donnée est <strong>SELECT</strong>.<br>
+    En commençant une commande SQL par ce mot, MySQL (et les autres SGBD) comprend que vous souhaitez sélectionner (et donc récupérer) de la donnée.
+  </div><br><br>
+  Tapez cette commande dans votre terminal :<br>
+  <div class="code">
+    SELECT * FROM utilisateur;
+  </div><br>
+  <figure>
+    <img src="media/21_select_table.png" alt="">
+    <figcaption>Voici ce que vous devriez voir apparaître après avoir saisi la commande</figcaption>
+  </figure><br>
+  MySQL vous affiche la table “utilisateur” sous forme de tableau récapitulatif, avec chaque objet sur sa propre ligne.<br><br>
+  <figure>
+    <img src="media/22_select_table_syntax.png" alt="">
+    <figcaption>La commande SELECT</figcaption>
+  </figure>
+  Décortiquons ensemble la commande que nous venons d’effectuer pour arriver à ce résultat :
+  <ul>
+    <li><strong>SELECT</strong><br>
+      comme nous l’avons vu, indique à MySQL que nous souhaitons récupérer de la donnée ;</li><br>
+    <li><strong>*</strong> indique que l’on souhaite récupérer toutes les colonnes (ou champs) présents dans cette table (ici : id, nom, prenom et email) ;</li><br>
+    <li><strong>FROM</strong> table permet à MySQL de comprendre depuis quelle table nous souhaitons récupérer de la donnée.</li><br>
+  </ul>
+  <h3>Lisez quelques colonnes seulement</h3>
+  C’est super ça, mais je suis réellement obligé de récupérer toutes les colonnes à chaque fois ?<br>
+  Avant que je vous réponde, tapez cette commande dans votre terminal :<br>
+  <div class="code">
+    SELECT `nom`, `prenom`, `email` FROM utilisateur;
+  </div><br><br>
+  Que remarquez-vous après l’avoir tapée ?<br>
+  Eh oui, la colonne <strong><u>id</u></strong> n’est plus visible dans le tableau récapitulatif !<br>
+  <figure>
+    <img src="media/23_select_table_syntax_col.png" alt="">
+    <figcaption>Écran du terminal suite à la commande saisie</figcaption>
+  </figure><br>
+  De la même manière qu’on précisait les colonnes que l’on souhaitait ajouter avec <strong><u>INSERT</u></strong>, on peut préciser celles que l’on veut que l’application lise avec <strong><u>SELECT</u></strong>.<br>
+  Pour cela, il suffit de mentionner les noms de colonnes que l’on souhaite récupérer après le mot clé <strong><u>SELECT</u></strong>, comme dans l’exemple ci-dessus.
+  <h3>À votre tour d’essayer !</h3>
+  Je vous propose de lister tous les noms et les calories associées pour chaque aliment présent dans la BDD de Foodly.<br>
+  Comment feriez-vous ?<br>
+  <div class="code">
+    SELECT `nom`,`calories` FROM aliment;
+  </div><br>
+  <video src="media/4_select_item_database.mp4" controls width="800"></video>
+  <h3>En résumé</h3>
+  <ul>
+    <li>
+      Les objets d’une table se lisent avec la commande <strong><u>SELECT FROM</u></strong> .
+    </li><br>
+    <li>
+      Lors de l’utilisation de cette commande, on mentionne <strong>quelles sont les colonnes</strong> que l’on veut afficher <strong>en les séparant par des virgules</strong>.
+    </li><br>
+  </ul>
+
+
+  <h5><a href="#sommaire">Sommaire</a></h5>
+
+  <h2 id="update_BDD">2.3 - Mettez à jour les données de votre BDD -</h2>
+  <h3>Mettez à jour un objet en particulier</h3>
+  Admettons maintenant qu’un utilisateur souhaite mettre à jour son e-mail via l’application.<br>
+  Comment Foodly traduirait ceci en commande SQL pour MySQL ?<br>
+  Ici, le mot clé magique est <strong><u>UPDATE</u></strong>, qui signifie “mise à jour” en anglais.<br>
+  Tapez cette commande dans votre terminal pour changer l’e-mail du premier utilisateur :<br>
+  <div class="code">
+    UPDATE `utilisateur` SET `email` = 'quentind@gmail.com' WHERE `id` = '1';
+  </div><br>
+  Vous devriez avoir un message qui confirme ce changement.<br>
+  Si vous lisez à nouveau les données de votre BDD sur la table “utilisateur”,<br>
+  vous remarquerez que l’e-mail de l’utilisateur avec l’id 1 est celui qu’on vient de taper.<br><br>
+  <figure>
+    <img src="media/24_update_item_from_table.png" alt="">
+    <figcaption>La commande UPDATE</figcaption>
+  </figure><br>
+  <table>
+    <tr>
+        <th>Mot clé</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><strong>UPDATE</strong> table</td>
+        <td>Signifie à SQL que vous souhaitez mettre à jour de la donnée dans votre BDD.<br>
+          Vous indiquez aussi la table dans laquelle se trouve(nt) le ou les objets que vous souhaitez modifier.</td>
+    </tr>
+    <tr>
+        <td><strong>SET</strong> colonne = valeur</td>
+        <td>Sert à indiquer à SQL quelles sont la ou les colonnes à modifier,<br>
+          et quelles sont la ou les valeurs qu’elles doivent désormais prendre.</td>
+    </tr>
+    <tr>
+        <td><strong>WHERE</strong> colonne = valeur</td>
+        <td>C’est ce qu’on appelle un filtre.<br>
+          Vous allez les voir plus en détail dans la partie 3, mais sachez qu’ils servent à restreindre<br>
+          la commande en cours à un ou des objets répondant à des conditions précises.<br>
+          Ici, on va mettre à jour uniquement l’objet dont l’id est 1, soit le premier utilisateur !</td>
+    </tr>
+  </table><br>
+  <div class="remarque">
+    Il est tout à fait possible d’utiliser  <strong><u>UPDATE</u></strong>  sans filtres (sans  <strong><u>WHERE </u></strong> ).<br>
+    Néanmoins, la commande modifierait tous les objets de notre table.<br>
+     C’est très rarement ce que l’on souhaite.
+  </div><br>
+  <h3>À vous de jouer !</h3>
+  Nous avons oublié de préciser le type de pomme vendue à Intermarché.<br>
+  Il s'agit d'une pomme golden.<br>
+  Comment feriez-vous pour rectifier le tir ?<br>
+  <strong>Reponse</strong><br>
+  <div class="code">
+    UPDATE aliment SET `nom`= 'Pomme Golden' WHERE `id`= '2';
+  </div><br>
+  <video src="media/5_update_item_from_table.mp4" controls width="800"></video>
+
+  <h3>En résumé</h3>
+<ul>
+  <li>On met à jour les objets d’une table avec la commande <strong><u>UPDATE</u></strong>.</li><br>
+  <li>Lors de l’utilisation de cette commande, on mentionne quelles sont les colonnes qu’on souhaite mettre à jour avec <strong><u>SET</u></strong>.</li><br>
+  <li>Si on ne filtre pas avec <strong><u>WHERE</u></strong>, on risque de <strong>mettre à jour tous les objets</strong> de la table.<br>
+     Ce qui est rarement ce que l’on souhaite !</li><br>
+</ul>
+
+
+<h5><a href="#sommaire">Sommaire</a></h5>
+
+  <h2 id="delete_BDD">2.4 - Supprimez des objets dans votre BDD -</h2> 
+
+  <h3>Supprimez un objet en particulier</h3>
+  Finissons par un dernier cas d’usage.<br>
+  Admettons qu’un utilisateur souhaite se désinscrire de Foodly.<br>
+  Il faudrait alors le supprimer de votre BDD.<br>
+   Mais comment faire ?<br><br>
+   <div class="remarque">
+    Ici, le mot clé est <strong><u>DELETE</u></strong>. Signifiant “supprimer” en anglais.
+   </div><br>
+   <div class="important">
+    Attention toutefois, cette commande est très simple à utiliser, parfois trop même !<br>
+    Une fois la donnée supprimée de votre BDD, impossible de la récupérer !<br>
+    À utiliser avec parcimonie.
+   </div><br>
+   Voici par exemple la commande pour supprimer le deuxième utilisateur :<br>
+   <div class="code">
+    DELETE FROM `utilisateur` WHERE `id` = '2';
+   </div><br>
+   Une fois cette commande effectuée, vous pouvez vérifier qu’elle a fonctionné en listant les utilisateurs (commande <strong><u>SELECT</u></strong>).<br>
+   <div class="important">
+    Là aussi, il vaut mieux utiliser cette commande avec <strong><u>WHERE</u></strong> pour en limiter l’effet.<br>
+     Si vous ne le faites pas, vous risqueriez de supprimer tous les objets d’une table !<br>
+     Dans notre cas, adieu à nos utilisateurs.
+   </div><br>
+   <h3>À vous de jouer !</h3>
+   Bon, on va dire qu’on s’est complètement trompé pour notre pomme golden.<br>
+   Même en la modifiant précédemment dans la BDD de Foodly, les données sont complètement fausses.<br>
+   Comment feriez-vous pour la supprimer définitivement de la BDD ?<br>
+   Reprenez votre terminal et essayez de supprimer la pomme golden.<br>
+   <strong>Reponse</strong><br>
+   <div class="code">DELETE FROM aliment WHERE `id`='2'; </div><br>
+   <video src="media/6_delete_item_from_table.mp4" controls width="800"></video><br/><br/>
+
+   <h3>En résumé</h3>
+   <ul>
+     <li>On supprime les objets d’une table avec la commande <strong><u>DELETE</u></strong>.</li><br>
+     <li>Si on ne filtre pas avec <strong><u>WHERE</u></strong>, on risque de supprimer tous les objets de la table.<br>
+      Ce qui est rarement ce que l’on souhaite !</li><br>
+    </ul>
+    
+
+    <h5><a href="#sommaire">Sommaire</a></h5>
+
+    <h2 id="extract_data">3.1 - Extrayez des informations spécifiques de votre BDD -</h2>
+    Vous allez apprendre dans cette partie comment extraire uniquement l’information qui vous intéresse, et en tirer quelques enseignements !<br>
+    Avant tout, téléchargez la base de données <a href="https://github.com/OpenClassrooms-Student-Center/Course-implementez-BDD-SQL/tree/master/partie_3" target="_blank">Foodly</a> pour cette partie.
+    <h3>Isolez un objet unique</h3>    
+    Dans la partie précédente, à chaque fois que vous lisiez de la donnée, c’était celle d’une table toute entière.<br>
+    <div class="remarque">
+      Pour rappel, une commande telle que  <strong><u>SELECT * FROM aliment;</u></strong>   va vous afficher tous les aliments de votre BDD.
+    </div><br>
+    Imaginons un utilisateur dans votre application Foodly. Il est en train de scanner un aliment lors de ses courses.<br>
+    L’application demandera à la BDD de lui restituer l’aliment en question.<br>
+    Pour ce faire, il existe une commande en SQL que l’application pourra utiliser pour récupérer uniquement cet aliment.<br>
+    <div class="important">
+      Il s’agit de la commande <strong><u>WHERE</u></strong>.
+    </div><br>
+    Par exemple, la commande :<br>
+    <div class="code">
+      SELECT * FROM aliment WHERE id = 4;
+    </div><br>
+    va nous restituer uniquement l’aliment dont l’<strong>id est le numéro 4</strong> !<br><br>
+    <strong><strong><u>WHERE</u></strong>  ne se limite pas uniquement aux id.</strong><br>
+    <div class="code">
+      SELECT * FROM aliment WHERE nom = “poire”;
+    </div><br>
+    va nous restituer uniquement l’aliment dont le <strong>nom est 'poire'</strong> !<br><br>
+    <div class="important">
+      Vous pouvez appliquer  <strong><u>WHERE</u></strong>  à n’importe quelle colonne en utilisant le nom de cette colonne.
+    </div><br>
+    <div class="important">
+      À noter que  <strong><u>WHERE</u></strong>  peut s'exécuter avec  <strong><u>SELECT</u></strong>  ,<br>
+       mais aussi avec n’importe quelle autre commande :<br>
+       vous pouvez l’utiliser avec  <strong><u>UPDATE</u></strong>  ou  <strong><u>DELETE</u></strong>  pour ne mettre à jour ou supprimer qu’un objet spécifique, et non tous les objets de votre table !
+    </div>
+    <h3>Isolez plusieurs objets répondant à un critère de comparaison</h3>
+    OK, c’est utile de ne pouvoir sélectionner qu’un seul objet.<br>
+    Mais admettons que votre utilisateur souhaite voir tous les aliments bio de son hypermarché, ou bien ceux qui ne sont pas trop caloriques.<br><br>
+    <strong><u>WHERE</u></strong>  fonctionne avec un principe de comparaison.<br>
+    Dans vos précédentes commandes, vous utilisiez l’opérateur égal <strong><u>=</u></strong> pour indiquer que vous ne vouliez que l’objet dont le nom était égal à une valeur.<br><br>
+    Or, vous pouvez utiliser tous les opérateurs classiques, tels que :
+    <ul>
+      <li>supérieur à ( > ) ;</li><br>
+      <li>inférieur à ( < ) ;</li><br>
+      <li>supérieur ou égal à (>=) ;</li><br>
+      <li>et inférieur ou égal à (<=).</li><br>
+    </ul><br>
+    <div class="code">
+      SELECT * FROM aliment WHERE calories < 90;
+    </div><br>
+    va afficher tous les aliments dont la <strong>teneur en calories n’excède pas (strictement) 90 kcal</strong>
+
+    <h3>Isolez des objets à partir d’une comparaison sur du texte</h3>
+    <div class="remarque">
+      La limite de  <strong><u>WHERE</u></strong>  est que la comparaison ne peut s’effectuer que sur des données chiffrées.
+    </div><br><br>
+    <div class="important">
+      Il existe un autre mot clé pour effectuer des comparaisons sur du texte : il s’agit du mot clé <strong><u>LIKE</u></strong>.
+    </div><br><br>
+    Ce dernier permet de sélectionner les objets dont le texte d’une colonne répond à un modèle spécifique.<br>
+     C’est en fait lui-même un opérateur, car il s’ajoute au sein d’une commande  <strong><u>WHERE</u></strong>.<br>
+     <div class="code">
+      SELECT * FROM utilisateur WHERE email LIKE “%gmail.com”;
+     </div><br>
+     va afficher tous les utilisateurs dont l’<strong>e-mail se termine par “gmail.com”</strong>.<br>
+     <figure>
+      <img src="media/25_like_item_from_table.png" alt="">
+      <figcaption>L’utilisation du pourcentage (%)</figcaption>
+    </figure><br>
+    <div class="remarque">
+    Ce “%gmail.com” signifie que vous souhaitez récupérer tout texte finissant par “gmail.com”.<br>
+    Le pourcentage (%) indique à SQL :
+      <ul>
+        <li>“il peut y avoir autant de texte que tu veux, et aussi long que tu veux avant le “gmail.com” ;</li><br>
+        <li>
+          “ne prête pas attention au contenu qu’il y a avant gmail.com.”
+        </li><br>
+      </ul>
+    Si vous souhaitiez récupérer le texte qui commence par “gmail.com” vous écririez : “gmail.com%”.<br>
+    Enfin, si vous cherchiez tout texte qui contient “gmail”, peu importe qu’il soit au début ou à la fin, vous écririez “%gmail%”.
+    </div>
+
+    <h3>Ordonnez les objets récupérés pour chaque requête</h3>
+    Reprenons l’exemple de notre utilisateur qui cherche à afficher les aliments peu caloriques dans Foodly.<br><br>
+    Grâce à ce que vous avez appris, vous pouvez désormais afficher les aliments dont les calories ne dépassent pas un certain seuil.<br>
+    Le mot clé <strong><u>ORDER BY calories ASC</u></strong> permet d’afficher les aliments par ordre croissant de calories.<br>
+    <figure>
+      <img src="media/26_order_item_from_table.png" alt="">
+      <figcaption>Le mot clé ORDER BY</figcaption>
+    </figure>
+    Ce mot clé vous permet d’ordonner une colonne par ordre croissant (ascending en anglais, d’où le mot clé SQL <strong><u>ASC</u></strong>),<br>
+    ou décroissant (descending en anglais, soit le mot clé <strong><u>DESC</u></strong>).<br>
+    Voici donc la commande à effectuer pour afficher les aliments par ordre croissant de calories :<br>
+    <div class="code">
+      SELECT * FROM aliment ORDER BY calories ASC;
+    </div><br><br>
+    Bien sûr, vous pouvez mixer les commandes entre elles !<br>
+    Voici la commande pour n’afficher que les <strong>aliments dont les calories ne dépassent pas 90 kcal</strong>, mais de manière <strong>décroissante</strong> :<br>
+    <div class="code">
+      SELECT * FROM aliment WHERE calories < 90 ORDER BY calories DESC;
+    </div><br><br>
+    Cette commande fonctionne aussi avec le texte !<br>
+    Si vous effectuez un  <strong><u>ORDER BY</u></strong> sur une colonne de texte, celle-ci sera ordonnée :
+    <ul>
+      <li>soit dans l’ordre alphabétique (  <strong><u>ASC</u></strong>  ).<br>
+      <strong><u>SELECT * FROM utilisateurs ORDER BY prenom ASC;</u></strong><br>
+      affiche les utilisateurs avec les prénoms affichés par ordre alphabétique ;
+      </li><br>
+      <li>soit dans l’ordre opposé (  <strong><u>DESC</u></strong>  ).<br>
+        <strong><u>SELECT * FROM utilisateurs ORDER BY prenom DESC;</u></strong><br>
+        affiche les utilisateurs avec les prénoms affichés par ordre anti-alphabétique.
+      </li><br>
+    </ul>
+    <h3>À vous de jouer !</h3>
+    Imaginons que je vous demande tous les aliments qui ne sont pas bio dans la base, classés par ordre décroissant de contenance en protéines.<br><br>
+    <strong><u>SELECT * FROM aliment WHERE bio = false ORDER BY proteines DESC;</u></strong><br><br>
+    <video src="media/7_orderby.mp4" controls width="800"></video><br/><br/>
+
+    <h3>En résumé</h3>
+    <ul>
+      <li>Vous avez appris comment filtrer la donnée que vous souhaitez récupérer avec la commande <strong><u>WHERE</u></strong>(et les opérateurs comme <strong><u>=</u></strong>ou <strong><u>LIKE</u></strong>).</li><br>
+      <li>Vous savez désormais ordonner les résultats d’une requête SQL avec la commande <strong><u>ORDER BY</u></strong>.</li><br>
+    </ul>
+
+
+    <h5><a href="#sommaire">Sommaire</a></h5>
+
+  
+    <h2 id="count">3.2 - Effectuez des opérations et sauvegardez vos requêtes -</h2>
+
+    <h3>Comptez le nombre d’objets récupérés via une requête</h3>
+    Combien d’objets répondent à un critère (ou une requête SQL) donné ?<br>
+    Par exemple, admettons qu’un utilisateur de Foodly souhaite savoir combien il existe d’aliments bio, ou que vous souhaitiez compter le nombre d’utilisateurs dans l’application.<br><br>
+    Il existe le mot clé <strong><u>COUNT</u></strong>, qui permet justement cela.<br>
+    Appliqué à n’importe quelle commande SQL de type  <strong><u>SELECT</u></strong>  , il vous donnera le nombre d’objets récupérés plutôt que leur valeur.<br><br>
+    <div class="remarque">
+      En plus de ne faire “que compter”,  <strong><u>COUNT</u></strong>  est bien plus rapide à effectuer qu’un  <strong><u>SELECT</u></strong>  “classique” pour votre base de données.<br>
+      Le SGBD et la BDD arriveront à retrouver le résultat de votre commande bien plus rapidement (parfois, la différence se compte en minutes !).<br>
+      Privilégiez-le avant d’effectuer des requêtes sur un large groupe de données !
+    </div><br><br>
+    Vous souvenez-vous de la commande que nous avions effectuée pour récupérer uniquement les utilisateurs dont l’e-mail était un Gmail ?<br>
+    Comment l’adapter pour connaître le nombre d’utilisateurs avec une adresse Gmail dans la base ?<br><br>
+    <div class="code">
+      SELECT COUNT(*) FROM utilisateur WHERE email LIKE "%gmail.com";
+    </div><br><br>
+    MySQL vous affiche le nombre d’objets plutôt que leur contenu.<br>
+    Vous voyez donc combien d’utilisateurs répondent à ce critère.<br><br>
+    <div class="remarque">
+      En appliquant un  <strong><u>COUNT(*)</u></strong>  , vous comptez le nombre d’objets.<br>
+      Mais vous pouvez aussi restreindre le comptage à une colonne spécifique en écrivant  <strong><u>COUNT(colonne)</u></strong> .<br>
+      Enfin, vous pouvez aussi compter le nombre d’éléments uniques d’une colonne avec  <strong><u>COUNT(DISTINCT colonne)</u></strong>  .
+    </div><br><br>
+    Par exemple,<strong><u>SELECT COUNT(*)FROM utilisateur;</u></strong> compte tous les utilisateurs,<br>
+    tandis que  <strong><u>SELECT COUNT(nom) FROM utilisateur;</u></strong>  compte tous les noms de famille.<br><br>
+    Ok, vous allez me dire qu’on trouve exactement le même nombre. Et c’est vrai.<br>
+    Compter dans une colonne prend vraiment son sens en comptant le nombre de valeurs distinctes.<br><br>
+    <strong><u>SELECT COUNT(DISTINCT nom) FROM utilisateur;</u></strong>  comptera uniquement les noms de familles différents, vous permettant de voir si certains utilisateurs ont le même nom !
+
+    <h3>Effectuez des opérations sur des données chiffrées</h3>
+    Admettons que l’on souhaite connaître le total calorique d’un groupe d’articles, ou bien la contenance moyenne en sucre d’un groupe d’aliments :  au lieu de tout noter à la main depuis la base de données, laissez MySQL effectuer ces opérations pour vous !<br><br>
+    Pour cela, il existe plusieurs mots clés que vous pouvez appliquer à une colonne lors d’une requête pour en modifier le résultat :
+    <ul>
+      <li><strong><u>AVG</u></strong>  : nous donne la moyenne de la colonne sur la sélection ;</li><br>
+      <li><strong><u>SUM</u></strong>  : nous donne la somme de la colonne sur la sélection ;</li><br>
+      <li><strong><u>MAX</u></strong>  : nous donne le maximum de la colonne sur la sélection ;</li><br>
+      <li><strong><u>MIN</u></strong>  : nous donne le minimum de la colonne sur la sélection.</li><br>
+    </ul><br>
+    Envie de connaître le maximum de teneur en sucre des aliments dans notre base ?<br>
+    Rien de plus simple :<br>
+    <div class="code">
+      SELECT MAX(sucre) FROM aliment;
+    </div><br><br>
+    Quelle est la teneur moyenne en calories des aliments de 30 kcal ou plus ?<br>
+    <div class="code">
+      SELECT AVG(calories) FROM aliment WHERE calories >= 30;
+    </div><br><br>
+    <h4>À vous de jouer !</h4>
+    Je vous laisse tester ces opérations avec  <strong><u>MIN</u></strong>  et  <strong><u>SUM</u></strong>  !<br>
+    Pour voir à quoi cela ressemble dans le terminal, voici un screencast explicatif où je reprends une à une toutes ces commandes sur la liste des aliments qui ne sont pas bio :<br>
+    <div class="code">
+      SELECT COUNT(*) FROM aliment WHERE bio = false;
+    </div><br>
+    Compte le nombre d'aliment qui ne sont pas bio<br><br>
+    <div class="code">
+      SELECT MAX(proteines) FROM aliment WHERE bio = false;
+    </div><br>
+    Selectionne l'aliment qui a le max de proteine qui n'est pas bio<br>
+     (et affiche le nombre de proteines)<br><br>
+     <div class="code">
+      SELECT MIN(proteines) FROM aliment WHERE bio = false;
+    </div><br>
+    Selectionne l'aliment qui a le moins de proteine qui n'est pas bio<br>
+     (et affiche le nombre de proteines)<br><br>
+     <div class="code">
+      SELECT AVG(proteines) FROM aliment WHERE bio = false;
+    </div><br>
+    Affiche la moyenne de proteines dans les aliments qui ne sont pas bio<br>
+     (et affiche le nombre de proteines)<br><br>
+    <video src="media/8_min_max_avg_count_from_item.mp4" controls width="800"></video><br/><br/>
+
+    <h3>Sauvegardez vos requêtes avec CREATE VIEW</h3>
+    MySQL a un système de “vues” qui permet de créer des tables temporaires à partir d’une commande SQL.<br>
+    Entendez par là que vous allez “sauvegarder” une commande SQL pour ne plus avoir à la réeffectuer à chaque fois !<br><br>
+    Admettons que vous souhaitiez sauvegarder dans une vue la commande suivante : les utilisateurs dont l’adresse mail est une adresse Gmail.<br>
+    Vous utilisez la commandeCREATE VIEW!<br>
+    <div class="code">
+      CREATE VIEW utilisateurs_gmail_vw AS SELECT * FROM utilisateur WHERE email LIKE "%gmail.com";
+    </div><br><br>
+    <figure>
+      <img src="media/27_create_view.png" alt="">
+      <figcaption>La commande CREATE VIEW</figcaption>
+    </figure><br><br>
+    Je viens de créer la vue <strong>“utilisateurs_gmail_vw”</strong>.<br>
+    Cette dernière s’utilise désormais comme une table.<br>
+    Ainsi, pour récupérer les utilisateurs avec une adresse Gmail, plus besoin d’écrire ma requête compliquée !<br>
+    Je n’ai plus qu’à écrire :<br>
+    <div class="code">
+      SELECT * FROM utilisateurs_gmail_vw;
+    </div><br><br>
+    <figure>
+      <img src="media/28_select_created_view.png" alt="">
+      <figcaption>Utilisation de la commande CREATION VIEW avec SELECT * FROM</figcaption>
+    </figure><br><br>
+<div class="remarque">
+  La convention chez les utilisateurs de SQL est de toujours préfixer le nom d’une vue avec “_vw”, pour la distinguer des “vraies” tables.
+</div><br><br>
+Le plus utile avec cela, c’est que la vue se comporte comme une vraie table.<br>
+Vous pouvez ainsi réappliquer d’autres commandes SQL sur cette dernière.<br><br>
+Par exemple : afficher les utilisateurs dont l’adresse e-mail est une adresse Gmail ET dont le prénom contient la lettre “m” :<br>
+<div class="code">
+  SELECT * FROM utilisateurs_gmail_vw WHERE prenom LIKE "%m%";
+</div><br><br>
+<div class="remarque">
+  Grâce aux vues, vous pouvez “raccourcir” des requêtes SQL complexes et rébarbatives, vous permettant d’aller encore plus loin dans vos analyses !
+</div><br>
+<h4>À vous de jouer !</h4>
+Essayez à présent par vous-même la création d'une vue.<br>
+Créez une vue reprenant notre liste des aliments non bio, classés par contenance en protéines (de manière décroissante).<br><br>
+<div class="code">
+  CREATE VIEW aliments_non_bio_vw AS SELECT * FROM aliment WHERE bio = false ORDER BY proteines DESC;
+</div><br>
+<video src="media/9_create_view.mp4" controls width="800"></video><br/><br/>
+
+<h3>En résumé</h3>
+<ul>
+  <li>
+    Vous avez appris à effectuer des opérations mathématiques simples avec des mots clés comme <strong><u>COUNT</u></strong> ou <strong><u>AVG</u></strong>.
+  </li><br>
+  <li>
+    Vous savez sauvegarder des requêtes avec <strong><u>CREATE VIEW</u></strong>
+  </li><br>
+</ul>
+
+
+<h5><a href="#sommaire">Sommaire</a></h5>
+
+<h2 id="join">3.3 - Implémentez des relations entre vos données grâce à JOIN -</h2> 
+Les bases de données SQL sont dites de type “relationnel”.<br>
+Cela sous-entend que leur force réside sur leur capacité à <strong>relier plusieurs types de données entre elles</strong>.<br>
+Pour l’instant, vous avez utilisé de la donnée sans relations.<br>
+Par exemple, pour récupérer ou mettre à jour un utilisateur ou un aliment.<br><br>
+Or, si vous reprenez l’exemple de Foodly, l’application doit stocker les aliments qu’un utilisateur a scannés.<br>
+Pour ce faire, il faut <strong>stocker les relations entre ces mêmes utilisateurs et certains aliments</strong>.<br>
+Nous verrons comment mettre en place de telles relations dans la partie 4.<br>
+Mais en attendant, voyons comment récupérer des objets selon les relations qu’ils ont entre eux.
+
+<h3>Extrayez des informations via une relation 1 à plusieurs</h3>
+Beaucoup d’utilisateurs vont utiliser Foodly, et ce, dans plusieurs pays.<br>
+Afin de pouvoir s’adapter à chacun, l’application va devoir <strong>stocker la langue préférée</strong> de chaque utilisateur.<br>
+Pour ce faire, la table “langue” a été rajoutée à la base de données <a href="https://github.com/OpenClassrooms-Student-Center/Course-implementez-BDD-SQL/blob/master/partie_3/foodly.sql" target="_blank">Foodly</a> que vous avez téléchargée au début de cette partie.<br>
+Chaque utilisateur est relié à une langue.<br>
+Et chaque langue peut être reliée à plusieurs utilisateurs.<br>
+<figure>
+  <img src="media/29_one_to_many.png" alt="">
+  <figcaption>La relation un à plusieurs entre les utilisateurs et les langues</figcaption>
+</figure><br>
+<div class="important">
+  On parle alors d’une relation 1 à plusieurs entre utilisateur et langue (one-to-many, en anglais).
+</div><br><br>
+Pour matérialiser une telle relation dans une base SQL telle que MySQL, on suit un principe assez simple :
+<ol>
+  <li>Dans ce cas spécifique, une langue est reliée à plusieurs utilisateurs.<br>
+    On crée donc cet objet normalement, comme vous avez pu le faire précédemment.<br>
+  <div class="code">
+    INSERT INTO `langue` VALUES ('français');
+  </div>
+  </li><br>
+  <li>Chaque utilisateur se voyant relié à une langue,<br>
+    c’est l’utilisateur qui va devoir stocker l’<strong>id unique</strong> de la langue associée.<br>
+    Par convention, on utilise comme nom de ce champ  <strong><u>{nom de l’objet associé}_id</u></strong>  (donc ici,  <strong><u>langue_id</u></strong>  ).
+  </li><br>
+  <li></li><br>
+</ol>
+Les utilisateurs de la base de données mise à jour dans la partie 2 ont ainsi un champ  <strong><u>langue_id</u></strong>  , où est stocké l’<strong>id de la langue</strong> qu’ils souhaitent utiliser.<br>
+<div class="remarque">
+  Par exemple, le premier utilisateur a comme <strong><u>langue_id</u></strong> 1, soit l’id du français dans la table des langues.
+</div><br><br>
+Imaginez désormais qu’on vous demande de ressortir toutes les langues utilisées par les 10 premiers utilisateurs, ou tous les utilisateurs ayant configuré Foodly en anglais.<br>
+<div class="important">
+  Il existe une commande qui est justement là pour régler ce genre de problème.<br>
+   La commande <strong><u>JOIN</u></strong>.
+</div><br><br>
+Grâce à cette commande, vous allez pouvoir <strong>expliquer à MySQL comment joindre deux tables selon un identifiant qu’elles ont en commun</strong>.<br>
+Partons du principe que :
+<ul>
+  <li>la langue_id du premier utilisateur est le français ;</li><br>
+  <li>l’id du français est 1.</li><br>
+</ul>
+Vous allez spécifier à MySQL de joindre les tables “utilisateur” et “langue” en lui précisant que l’id de langue et langue_id de l’utilisateur doivent êtres égaux !<br><br>
+Prenons un exemple.<br>
+Regardons tous les utilisateurs avec les langues qui leur sont associées.<br>
+Tapez cette commande dans votre terminal :<br>
+<div class="code">
+  SELECT * FROM `utilisateur`<br>
+  <br>
+JOIN `langue`<br>
+<br>
+ON `utilisateur`.`langue_id` = `langue`.`id`;<br>
+</div><br>
+Que s’est-il passé dans cette commande ?<br>
+<ul>
+  <li>Nous avons demandé à MySQL de sélectionner tous les utilisateurs.<br>
+    <strong><u>SELECT * FROM `utilisateur`</u></strong>
+  </li><br>
+  <li>Auxquels nous voulons joindre les langues.<br>
+    <strong><u>JOIN `langue`</u></strong></li><br>
+  <li>En précisant à MySQL de les relier, en considérant que l’<strong>id de la langue </strong>est stockée dans chaque utilisateur dans le champ <strong>langue_id</strong>.<br>
+    <strong><u>ON `utilisateur`.`langue_id` = `langue`.`id`</u></strong></li><br>
+</ul>
+<figure>
+  <img src="media/30_join.png" alt="">
+  <figcaption>L'utilisation de la commande JOIN</figcaption>
+</figure><br><br>
+Ici, vous avez utilisé la commande SQL pour lier la totalité d’une table (utilisateur) avec une autre (langue).<br>
+Mais on peut tout à fait limiter cette jointure à seulement quelques objets en particulier.<br><br>
+<h4>À vous de jouer !</h4>
+Admettons que je vous demande de me donner tous les noms de famille des utilisateurs ayant sélectionné le français.<br>
+<div class="code">
+  SELECT * FROM utilisateur<br>
+  <br>
+JOIN langue<br>
+<br>
+ON utilisateur.langue_id = langue.id WHERE langue.nom = 'français';<br>
+</div><br><br>
+<video src="media/10_join.mp4" controls width="800"></video><br/><br/>
+
+<h3>Obtenez des informations complexes via une relation plusieurs à plusieurs</h3>
+Reprenons ensemble l’idée première de l’application Foodly.<br/>
+Cette dernière sert à des utilisateurs (comme vous et moi) à scanner des aliments.<br/><br/>
+Une fois ces aliments scannés, il serait plus qu’utile que la base de données les garde en mémoire,<br/>
+afin que les utilisateurs puissent les retrouver par la suite (pour par exemple faire leur prochaine liste de courses).<br/><br/>
+Pour ce faire, il faudrait un moyen de stocker dans la BDD tous les aliments qui ont été scannés par un utilisateur précis.<br/>
+Sachant que :
+<ul>
+  <li>un même utilisateur peut stocker plusieurs aliments scannés ;</li><br>
+  <li>un aliment peut lui-même être scanné par plusieurs utilisateurs.</li><br>
+</ul>
+<figure>
+  <img src="media/31_many_to_many.png" alt="">
+  <figcaption>La relation un à plusieurs entre les utilisateurs et les aliments</figcaption>
+</figure><br>
+On parle ici de relation plusieurs à plusieurs.<br>
+<strong>Chaque objet d’une table pouvant être relié à plusieurs objets de l’autre table, et vice versa.</strong><br><br>
+Or, tout ce que sait faire MySQL (et les bases de données SQL en général), c’est de stocker une valeur unique par champ.<br>
+<strong>Il n’est pas possible par exemple de stocker plusieurs id d’aliments au sein d’un même utilisateur.</strong><br><br>
+Par défaut, le SQL ne sait modéliser que des relations 1 à plusieurs.<br>
+Une relation plusieurs à plusieurs, c’est une multitude de relations 1 à plusieurs.<br>
+Regardez les tables présentes dans la BDD que vous avez téléchargées pour cette partie.<br>
+Elle contient une table appelée  <strong><u>utilisateur_aliment</u></strong><br>
+Celle-ci contient des  <strong><u>utilisateur_id</u></strong>   et des  <strong><u>aliment_id</u></strong>  .<br>
+Vous l’avez peut-être deviné : elle sert à stocker des relations entre un utilisateur et un aliment précis.<br><br>
+<div class="important">
+  On appelle table de liaison ce genre de table.<br>
+Par convention, elle prend le nom  <strong><u>{table1}_{table2}</u></strong>  ,<br>
+et sert à <strong>relier les tables 1 et 2</strong>  qui y sont stockées,<br>
+en sauvegardant <strong>l’id d’un objet de la table 1</strong>, à l’<strong>id de l’objet de la table 2</strong> correspondant.
+</div><br><br>
+En récupérant tous les objets présents dans cette base,<br>
+qui ne sont autres que des relations 1 à plusieurs vers utilisateur et aliment,<br>
+on peut reconstituer les relations plusieurs à plusieurs entre ces mêmes utilisateurs et aliments !<br><br>
+<figure>
+  <img src="media/32_table-liaison.png" alt="">
+  <figcaption>La table de liaison relie les utilisateurs aux aliments</figcaption>
+</figure><br>
+On utilise aussi <strong><u>JOIN</u></strong><br>
+Voici la commande pour relier tous les utilisateurs aux aliments qu’ils ont scannés :<br>
+<div class="code">
+  SELECT * FROM utilisateur<br>
+  JOIN utilisateur_aliment ON (utilisateur.id = utilisateur_aliment.utilisateur_id)<br>
+  JOIN aliment ON (aliment.id = utilisateur_aliment.aliment_id);<br>
+</div><br>
+<div class="remarque">
+  Décomposons cette commande ensemble :
+<ul>
+<li>Nous avons demandé à MySQL de sélectionner tous les utilisateurs.<br>
+  <div class="code">SELECT * FROM `utilisateur`</div>
+</li><br><br>
+<li>Auxquels nous voulons joindre la table <strong><u>utilisateur_aliment</u></strong>.<br>
+  <div class="code">JOIN `utilisateur_aliment`</div>
+</li><br><br>
+<li>En précisant à MySQL de les relier en considérant<br>
+  que l’<strong>id de l’utilisateur</strong> est stocké en tant que <strong><u>utilisateur_id </u></strong><br>
+  dans la table <strong><u>utilisateur_aliment</u></strong>.<br>
+  <div class="code">ON (utilisateur.id = utilisateur_aliment.utilisateur_id)</div>
+</li><br><br>
+<li>À ce  <strong><u>JOIN</u></strong>  ,<br>
+   on veut à nouveau lier de la donnée de la table aliment,<br>
+    soit un nouveau  <strong><u>JOIN</u></strong>.<br>
+    <div class="code">JOIN `aliment`</div>
+  </li><br><br>
+<li>Pour ce faire, on précise à MySQL que l’<strong>id de l’aliment</strong><br>
+   est stocké dans <strong><u>utilisateur_aliment</u></strong><br>
+    en tant que <strong><u>aliment_id</u></strong>.<br>
+    <div class="code">ON (aliment.id = utilisateur_aliment.utilisateur_id)</div></li><br>
+</ul>
+</div>
+<h4>À vous de jouer !</h4>
+Admettons que vous souhaitiez voir tous les aliments sélectionnés par les utilisateurs dont l’adresse e-mail et une adresse Gmail.<br>
+<div class="code">
+  SELECT * FROM utilisateurs_gmail_vw<br>
+  JOIN utilisateur_aliment ON (utilisateurs_gmail_vw.id = utilisateur_aliment.utilisateur_id)<br>
+  JOIN aliment ON (aliment.id = utilisateur_aliment.aliment_id);<br>
+</div><br>
+<video src="media/10_join_multi.mp4.mp4" controls width="800"></video><br/><br/>
+
+<h3>En résumé</h3>
+<ul>
+  <li>
+    Vous savez désormais joindre plusieurs objets entre eux grâce au mot clé JOIN.
+  </li><br>
+  <li>
+    Et ce, que ce soit pour une <strong>relation un à plusieurs</strong><br>
+    ou pour une relation <strong>plusieurs à plusieurs</strong> grâce à une <strong>table de liaison</strong>.
+  </li><br>
+</ul>
+
+<h5><a href="#sommaire">Sommaire</a></h5>
+
+  <h2 id="alter_table">4.1 - Modifiez la structure d’un objet avec ALTER TABLE -</h2> 
+
+  <h3>Ajoutez ou supprimez un champ</h3>
+  <h4>Ajoutez un champ aux aliments</h4>
+  Le dernier rapport sur l’utilisation de Foodly vient de tomber.<br>
+  Dans celui-ci, les utilisateurs ont pu voter pour les améliorations qu’ils souhaiteraient voir apparaître dans l’application.<br>
+  La plus demandée était celle de voir la contenance en vitamines de chaque aliment.<br><br>
+  Sachant cela, l’équipe de Foodly organise une réunion concernant l’implémentation d’une telle fonctionnalité.<br>
+  Le design est prêt, les développeurs ont codé l’interface, mais il manque une chose cruciale pour récupérer la contenance en vitamines dans l’application : l’ajout de cette donnée dans la BDD.<br><br>
+  Prenons l’exemple de la vitamine C.<br>
+  Cette colonne n’apparaît nulle part dans le schéma de la table aliment.<br>
+  Il nous faut la créer.<br>
+  De la même manière que vous l’avez fait lors de la première partie,  il faudra spécifier son type à MySQL.<br><br>
+  Pour ce faire, utilisez la commande <strong><u>ALTER TABLE</u></strong>.<br><br>
+  Voyons à quoi ressemble la commande SQL pour rajouter cette colonne, puis décortiquons-la ensemble :<br>
+  <div class="code">ALTER TABLE aliment ADD vitamines_c FLOAT;</div><br><br>
+  Ici, on signale à MySQL :
+  <ul>
+    <li>
+      de modifier la structure d’une table avec <strong><u>ALTER TABLE</u></strong>;
+    </li><br>
+    <li>quelle table modifier (ici <strong>"aliment”</strong>) ;</li><br>
+    <li>que la modification va faire ajouter une colonne avec <strong><u>ADD</u></strong>;</li><br>
+    <li>le nom de cette nouvelle colonne (ici <strong>“vitamines_c”</strong>) ;</li><br>
+    <li>enfin, le type de la colonne (ici,<strong><u>FLOAT</u></strong>, car les vitamines sont stockées usuellement en mg/100g, valeur décimale).</li><br>
+  </ul>
+  <figure>
+    <img src="media/33_alter_table.png" alt="">
+    <figcaption>La commande ALTER TABLE</figcaption>
+  </figure><br>
+<div class="remarque">
+  À noter que le type n’est parfois pas seul.<br>
+  On peut aussi (comme dans la partie 1), mentionner à MySQL qu’on rajoute une colonne qui est :
+  <ul>
+    <li>une clé primaire (<strong><u>PRIMARY KEY</u></strong>) ;</li><br>
+    <li>avec une valeur par défaut (<strong><u>DEFAULT valeur_par_défaut</u></strong>) ;</li><br>
+    <li>non nulle (<strong><u>NOT NULL</u></strong>).<br>
+    Auquel cas il faudra préciser une valeur par défaut,<br>
+    MySQL créant la colonne avec la valeur “NULL” pour tous les objets existants dans cette table ;</li><br>
+  </ul>
+</div><br>
+<h4>À vous de jouer !</h4>
+Admettons que l’on souhaite rajouter une colonne à la table <strong>“langue”</strong><br>
+Cette colonne, c’est le <a href="http://www.lingoes.net/en/translator/langcode.htm" target="_blank">code ISO des langues</a> (par exemple : “fr-fr” pour le Français de métropole).<br><br>
+<div class="code">
+  ALTER TABLE langue ADD code VARCHAR(100);
+</div><br>
+<video src="media/11_alter_table.mp4" controls width="800"></video><br/><br/>
+<h4>Supprimez un champ aux aliments</h4>
+Le management de chez Foodly nous mentionne d’autres changements à effectuer sur l’application, qui impliquent la BDD.<br>
+Les utilisateurs de Foodly n’utilisent que très rarement la fonctionnalité pour savoir si un aliment est bio ou non.<br>
+Les développeurs, dans leur volonté de toujours diminuer la dette technique (à savoir, le code à maintenir), souhaitent retirer l’affichage bio de la fiche des aliments sur Foodly.<br>
+En tant que gestionnaire de la BDD, vous pensez qu’il serait pratique de faire de même de votre côté, pour éviter de maintenir un champ qui ne sera plus mis à jour.<br>
+Pour ce faire, rien de plus simple :<br>
+<strong>supprimons la colonne “bio” de la table “aliment” avec <strong><u>DROP</u></strong>.</strong><br>
+Voici la commande SQL pour le faire :<br>
+<div class="code">
+  ALTER TABLE aliment DROP bio;
+</div><br><br>
+Décomposons cette commande ensemble :
+<ul>
+  <li>On modifie toujours la structure d’une table avecALTER TABLE.</li><br>
+  <li>On lui signale à nouveau quelle table modifier (ici, “aliment”).</li><br>
+  <li>On lui indique que la modification va supprimer une colonne avecDROP.</li><br>
+  <li>On mentionne le nom de la colonne à supprimer (ici, “bio”).</li><br>
+</ul><br>
+<figure>
+  <img src="media/34_drop_item_from_table.png" alt="">
+  <figcaption>Utilisation de DROP</figcaption>
+</figure><br><br>
+<div class="important">
+  Il faut néanmoins faire attention lorsqu’on utilise cette commande.<br>
+  Une fois la colonne supprimée, celle-ci est définitivement détruite et ne peut plus être récupérée.<br>
+  Vous perdez l’information pour tous les objets présents en base.<br>
+  À utiliser avec parcimonie !
+</div><br><br>
+<h4>À vous de jouer !</h4>
+Maintenant, admettons que le service légal de Foodly vous dise que stocker des noms de famille va à l’encontre des conditions de protection des données des utilisateurs.<br>
+Comment feriez-vous pour supprimer les noms de famille ?<br><br>
+<div class="code">
+  ALTER TABLE utilisateur DROP nom;
+</div><br><br>
+<video src="media/12_drop_item_from_table.mp4" controls width="800"></video><br/><br/>
+
+<h3>Modifiez un champ existant</h3>
+<h4>Modifiez un champ des aliments</h4>
+Le management de Foodly revient encore une fois vers vous !<br>
+Après avoir regardé des utilisateurs se servir de Foodly, ils se sont rendu compte que les utilisateurs souhaiteraient pouvoir filtrer les aliments selon leurs apports calorifiques avec plus de précision.<br>
+Pour ce faire, les développeurs vous indiquent qu’ils vont devoir comparer les calories de deux aliments entre eux, et ce, à la virgule près.<br>
+Or, les calories sont actuellement stockées sous forme d’entiers (sans décimales, du coup).<br>
+Voici la commande pour effectuer cette opération :<br><br>
+<div class="code">
+  ALTER TABLE aliment MODIFY calories FLOAT;
+</div><br><br>
+Analysons cette commande :
+<ul>
+  <li>On modifie toujours la structure d’une table avec <strong><u>ALTER TABLE</u></strong>.</li><br>
+  <li>On lui signale à nouveau quelle table modifier (ici, <strong>“aliment”</strong>).</li><br>
+  <li>On lui indique que la modification va modifier le type d’une colonne avec <strong><u>MODIFY</u></strong>.</li><br>
+  <li>On mentionne le nom de la colonne à modifier (ici, <strong>“calories”</strong>).</li><br>
+  <li>On indique le nouveau type de la colonne (ici,<strong><u>FLOAT</u></strong>).</li><br>
+</ul><br><br>
+<figure>
+  <img src="media/35_alter_table_modify.png" alt="">
+  <figcaption>L'utilisation de FLOAT</figcaption>
+</figure><br>
+<h4>À vous de jouer !</h4>
+Les développeurs viennent vous voir affolés !<br>
+Certains utilisateurs ne peuvent pas s’inscrire car leur email dépasse les 255 caractères.<br>
+Pourriez-vous augmenter la limite à 500 ?<br><br>
+<div class="code">
+  ALTER TABLE utilisateur MODIFY email varchar(500);
+</div><br>
+<video src="media/13_alter_table_modify.mp4" controls width="800"></video><br/><br/>
+
+<h4>Renommez un champ des aliments</h4>
+Ce coup-ci, c’est la designer de Foodly qui revient vers vous : les utilisateurs sont perturbés…<br>
+Pour chaque aliment, la valeur en protéines, vitamines, matières grasses est mentionnée au pluriel.<br>
+Alors que les sucres, eux, sont mentionnés au singulier.<br>
+Ce qui perturbe la compréhension des aliments par les utilisateurs.<br>
+Comment renommer cette colonne dans la BDD ?<br>
+Voici la commande à effectuer :<br>
+<div class="code">
+  ALTER TABLE aliment CHANGE sucre sucres FLOAT;
+</div><br><br>
+Voici les explications de cette commande :
+<ul>
+  <li>On modifie toujours la structure d’une table avec <strong><u>ALTER TABLE</u></strong>.</li><br>
+  <li>On lui signale à nouveau quelle table modifier (ici, <strong>“aliment”</strong>).</li><br>
+  <li>On lui indique que la modification va modifier le nom d’une colonne avec <strong><u>CHANGE</u></strong>.</li>
+  <li>On mentionne le nom de la colonne à renommer, ainsi que son nouveau nom (ici, <strong><u>sucre</u></strong> devient <strong><u>sucres</u></strong>).</li>
+  <li>On indique le nouveau type de la colonne (ici,<strong><u>FLOAT</u></strong>).</li>
+</ul><br><br>
+C’est une spécificité propre à MySQL : pour renommer une colonne, il faut aussi indiquer son type.<br>
+Ce qui n’est pas nécessaire si vous utilisez un autre SGBD.<br>
+Cela permet de modifier à la fois le nom et le type d’une colonne dans une seule commande.<br>
+Et ce, même si vous ne souhaitez pas le modifier(réutilisez alors le même type)<br>
+<h4>À vous de jouer !</h4>
+A présent, les développeurs trouvent que le nom <strong><u>code</u></strong> dans la table des langues est peu explicite.<br>
+Ils aimeraient qu’elle s’appelle <strong><u>code_pays</u></strong>.<br><br>
+<div class="code">
+  ALTER TABLE langue CHANGE code code_pays varchar(100);
+</div><br>
+
+<video src="media/14_alter_table_change.mp4" controls width="800"></video><br/><br/>
+
+<h3>En résumé</h3>
+<ul>
+  <li>Vous savez que toute modification de la structure d’un objet s’effectue avec une commande <strong><u>ALTER TABLE</u></strong>.</li>
+  <li>Pour ajouter un champ à un objet, il vous faut utiliser le mot clé <strong><u>ADD</u></strong>.</li>
+  <li>Pour supprimer un champ, le mot clé est <strong><u>DROP</u></strong>.</li>
+  <li>Pour modifier un champ, le mot clé est <strong><u>MODIFY</u></strong> pour en modifier la structure, <strong><u>CHANGE</u></strong> pour le renommer.</li>
+</ul>
+
+
+    <h5><a href="#sommaire">Sommaire</a></h5>
+
+  <h2 id="relation_un_plusieurs">4.2 - Ajoutez une relation un à plusieurs -</h2> 
+  Voyons dans ce chapitre comment ajouter une relation un à plusieurs, en créant notre table <strong>"famille"</strong>.<br>
+  Puis retrouvez dans le chapitre suivant comment ajouter une relation plusieurs à plusieurs avec la création de la table <strong>"lieu"</strong>.
+  <h3>Ajoutez une nouvelle table "famille"</h3>
+  Nous avons obtenu une nouvelle demande d’amélioration de l’application de la part des utilisateurs !<br>
+  Ces derniers aimeraient pouvoir trier les aliments selon leur <strong>"famille"</strong>.<br>
+  Par exemple, regrouper ensemble les fruits, les légumes, les viandes, etc.<br>
+  Les développeurs pensent qu’il serait utile de séparer ces familles des aliments.<br>
+  En effet, ils pensent que les familles d’aliments pourront être utilisées de manière indépendante, pas forcément uniquement sur les fiches des aliments.<br>
+  Par exemple, pour effectuer un résumé de la consommation en fruits ou légumes d’une personne sur un mois, ou la répartition au sein de ses courses.<br><br>
+  <div class="remarque">
+    Pour cela, il faudrait que les familles d’aliments soient sur une table distincte de celle des aliments !
+  </div><br><br>
+  Maintenant que vous savez <strong>joindre</strong> plusieurs tables entre elles, il est temps de construire une telle relation entre tables.<br>
+  Avant de pouvoir relier les aliments à leur famille, il faut d’abord… eh bien, créer la table famille !<br>
+  Pour l’instant, un objet de type famille ne devra contenir que le nom de cette famille (“fruit”, “viande”, etc.).<br><br>
+  <div class="code">
+    CREATE TABLE famille (<br>
+    <br>
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,<br>
+    <br>
+    nom VARCHAR(100) NOT NULL<br>
+    <br>
+    );<br>
+  </div><br><br>
+  Maintenant que cette table est créée, insérons un objet dans celle-ci.<br>
+  Disons, l’objet qui va représenter les légumes.<br><br>
+  <div class="code">
+    INSERT INTO famille (`nom`) VALUES ('légumes');
+  </div><br><br>
+  Et voilà, vous voici en possession d’une nouvelle table “famille” qui dispose d’un objet “légumes”.
+
+  <h3>Ajoutez la relation entre famille et aliment</h3>
+  Une des choses à déterminer lors de l’ajout d’une relation, c’est de savoir si :
+  <ul>
+    <li>c’est une relation <strong>un à plusieurs</strong> ;</li>
+    <li>ou une relation <strong>plusieurs à plusieurs</strong>.</li>
+  </ul><br>
+  Ici, un aliment peut avoir une seule famille, mais une famille peut être présente sur plusieurs aliments.<br>
+  Par exemple, une poire et une pomme font partie de la famille “fruits”.<br>
+  <div class="remarque">
+    Il s’agit donc d’une relation un à plusieurs.
+  </div><br><br>
+  Dans le cadre d’une telle relation, c’est <strong>l’objet qui se trouve du côté “plusieurs” de la relation qui va être modifié</strong>, ici les aliments.<br>
+  On va devoir y stocker l’id de l’objet “un” associé, par exemple “fruits”.<br>
+  Ici, les aliments vont donc devoir être mis à jour pour y stocker une référence à leur famille.<br>
+  Cette référence, par convention, sera l’id de la famille.<br><br>
+  Voici les étapes que l’on va suivre :
+  <ol>
+    <li>Ajout du champ <strong><u>famille_id</u></strong> sur les aliments.<br>
+    </li>
+    <li>Modification de ce champ pour signaler à MySQL que c’est une référence à la table famille.
+    </li>
+    <li>Modification d’un objet pour y stocker une relation.</li>
+  </ol><br>
+  Ajout du champ <strong><u>famille_id</u></strong> sur les aliments.<br>
+    <div class="code">
+      ALTER TABLE aliment<br>
+      ADD famille_id INT NOT NULL;<br>
+    </div><br><br>
+      Il faut qu’on indique à MySQL que ce champ est une référence à une autre table,<br>
+      en lui précisant quel champ de cette autre table on référence.<br>
+      Pour modifier le champ famille_id, on utilise la commande :<br>
+      <div class="code">
+        ALTER TABLE aliment<br>
+        ADD FOREIGN KEY (famille_id) REFERENCES famille (id)<br>
+        ON DELETE CASCADE;<br>
+      </div><br>
+      Voyons ensemble ce que cette commande signifie :
+      <ul>
+        <li>On signale à MySQL qu’on souhaite modifier la table <strong>“aliment”</strong>, pour y ajouter une colonne<br>
+           (enfin, plutôt y ajouter une contrainte, dans ce cas précis).
+        </li>
+        <li>
+          On dit à MySQL que la colonne <strong><u>famille_id</u></strong> est une clé étrangère (foreign key en anglais),<br>
+          soit une référence à une colonne d’une autre table (ici, avec la partie  <strong><u>FOREIGN KEY (famille_id)</u></strong>  ).
+        </li>
+        <li>
+          On indique ensuite ce à quoi cette clé fait référence.<br>
+          Soit, dans notre cas, la colonne <strong>“id”</strong> de la table <strong>“famille”</strong> (soit la commande  <strong><u>REFERENCES famille(id)</u></strong>  ).
+        </li>
+        <li>
+          Enfin, sûrement la partie la plus obscure pour vous, on indique à MySQL le comportement à adopter en cas de suppression de l’objet “unique” (ici, la “famille”).<br>
+          Admettons que je vienne de créer ma famille “fruits”, et qu’elle soit reliée à mes objets “pomme” et “poire”.<br>
+          Que se passe-t-il si je supprime la famille “fruits” ?<br>
+          Eh bien, MySQL a besoin de le savoir.<br>
+          Pour cela, on lui indique via la commande<strong><u>ON DELETE</u></strong>.<br>
+          Cette dernière peut prendre une option parmi celles-ci :
+          <ul>
+            <li><strong><u>RESTRICT</u></strong> ou <strong><u>NO ACTION</u>  : MySQL va empêcher la suppression tant que “fruits” est référencé sur au moins un objet “aliment”.</strong></li>
+            <li><strong><u>SET NULL</u></strong>: MySQL va autoriser la suppression de “fruits”, et remplacer “famille_id” sur “pomme” et “poire” par la valeur NULL.</li>
+            <li><strong><u>CASCADE</u></strong> l’option la plus courante, mais la plus dangereuse.<br>
+              Ici, MySQL va supprimer “poire” et “pomme” en même temps que “fruits” (il va donc supprimer tous les objets reliés).</li>
+          </ul>
+        </li>
+      </ul>
+      <figure>
+        <img src="media/36_ON-DELETE.png" alt="">
+        <figcaption>Actions de la commande ON DELETE</figcaption>
+      </figure><br><BR>
+      Voilà, MySQL sait que “famille_id” est une référence à l’id de la table famille !<BR>
+      Reste maintenant à mettre à jour vos aliments !<BR>
+      Ajouter la relation de l’objet “haricots verts” vers la famille “légumes”.<br>
+      Voici la commande :<br>
+      <div class="code">
+        UPDATE `aliment` SET `famille_id` = '1' WHERE `nom` = 'haricots verts';
+      </div><br><br>
+      <div class="remarque">
+        N’oubliez pas, “légumes” ayant été ajouté en premier à la table “famille”, il a l’id numéro 1. 
+      </div><br><br>
+      Pour vérifier que cela a bien fonctionné, vous pouvez sélectionner les haricots verts avec leur famille grâce à un <strong><u>JOIN</u></strong>.<br>
+      <div class="code">
+        SELECT * FROM aliment<br>
+        JOIN famille ON aliment.famille_id = famille.id<br>
+        WHERE<br>aliment.nom = "haricots verts";
+      </div><br><br>
+      Grâce à cette commande, vous verrez apparaître un tableau récapitulatif, où la famille de “haricots verts” est bien “légumes”.<br><br>
+      Il ne vous reste plus qu’à ajouter les autres familles vous-même, rajouter sa famille à chaque aliment, et le tour est joué !
+      <h4>À vous de jouer !</h4>
+      Faisons un petit exercice :<br>
+      On souhaite rajouter les réductions disponibles sur les aliments.<br>
+      Une réduction pouvant être la même pour plusieurs aliments mais chaque aliment pouvant n’avoir qu’une seule réduction, il s’agit d’une relation un à plusieurs.<br>
+      Les réductions sont uniquement constituées d’un champ “valeur”, qui va contenir la réduction au format texte.<br>
+      Comment feriez-vous pour créer cette table et la lier aux aliments ?<br><br>
+      Creation de la table "reduction"<br>
+      <div class="code">
+      CREATE TABLE reduction<br>
+      (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,<br>
+      valeur VARCHAR(100) NOT NULL).<br>
+      </div><br>
+      Creation des valeurs<br>
+      <div class="code">
+        INSERT INTO reduction (valeur) VALUES ('-30%');
+      </div><br>
+      <div class="code">
+        INSERT INTO reduction (valeur) VALUES ('-50%');
+      </div><br>
+      Ajout de la colonne <strong><u>reduction_id</u></strong><br>
+      <div class="code">
+        ALTER TABLE aliment ADD reduction_id INT;<br>
+      </div><br>
+      Ajout de la liaison des tables<br>
+      <div class="code">
+        ALTER TABLE aliment<br>
+        ADD FOREIGN KEY (reduction_id)<br>
+        REFERENCES reduction (id);<br>
+        ON DELETE SET NULL;
+      </div><br>
+      Affecter une reduction de 50% à l'aliment dont l'id=1<br>
+      <div class="code">
+        UPDATE aliment SET reduction_id=1 WHERE id=1;
+      </div><br>
+      Utilisation de <strong><u>JOIN</u></strong><br>
+      <div class="code">
+        SELECT * from aliment JOIN reduction ON aliment.reduction_id = reduction.id WHERE aliment.id=1;
+      </div><br><br>
+      <video src="media/15_alter_table_join_one_to_many.mp4" controls width="800"></video><br/><br/>
+      <h3>En résumé</h3>
+      Vous savez ajouter une relation un à plusieurs entre deux objets en ajoutant à l’objet A un champ qui contiendra l’id (ou clé primaire) de l’objet B.
+      
+      
+      <h5><a href="#sommaire">Sommaire</a></h5>
+
+      <h2 id="relation_plusieurs_plusieurs">4.3 - Ajoutez une relation plusieurs à plusieurs -</h2>
+      Souvenez-vous on aimerait ensuite ajouter le type de magasin où sont présents les aliments.<br>
+      Un même aliment pouvant être présent dans plusieurs lieux, nous allons créer une relation plusieurs à plusieurs.
+      <h3>Ajoutez une nouvelle table “lieu”</h3>
+      La dernière demande de mise à jour des utilisateurs est arrivée !<br>
+      Ces derniers réclament une chose en théorie simple : pouvoir visualiser dans l’application de Foodly dans quel magasin sont disponibles leurs aliments préférés.<br>
+      Par exemple, savoir si leur jambon de prédilection est disponible aussi bien à Carrefour que chez Leclerc.<br>
+      Les développeurs se sont de nouveau regroupés : il va falloir <strong>stocker les lieux de vente dans la BDD</strong>.<br>
+      Un lieu pouvant vendre plusieurs aliments, et ces mêmes aliments pouvant être vendus dans plusieurs lieux, vous allez devoir créer une <strong>relation plusieurs à plusieurs</strong>.<br>
+      Mais avant toute chose, il vous faut créer la nouvelle table des lieux de vente (que nous allons sobrement appeler “lieu”).<br>
+      Un lieu de vente, c’est :
+      <ul>
+        <li>un nom (exemple : Carrefour City) ;</li>
+        <li>un type (exemple : supermarché).</li>
+      </ul><br><br>
+      <div class="code">
+        CREATE TABLE lieu (<br>
+        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,<br>
+        nom VARCHAR(100) NOT NULL,<br>
+        type VARCHAR(100) NOT NULL<br>
+        );<br>
+      </div><br><br>
+      insérons un lieu dans cette dernière, partons sur un simple Carrefour City<br>
+      <div class="code">
+        INSERT INTO `lieu` (`nom`, `type`) VALUES ('Carrefour City', 'supermarché');
+      </div>
+      La nouvelle table est créée, et un objet y a été inséré.<br>
+      Passons maintenant aux choses sérieuses en créant la relation plusieurs à plusieurs avec les aliments.
+
+      <h3>Ajoutez la table de liaison</h3>
+      Les aliments vont avoir des relations un à plusieurs avec la table de liaison.<br>
+      Les lieux, eux aussi, vont disposer de telles relations avec cette table.<br>
+      Et c’est en reliant ces deux tables via cette table de liaison que vous allez pouvoir ressortir les relations entre lieux et aliments.<br><br>
+      Pour ce faire, une table de liaison doit être créée.<br>
+      Par convention, elle doit toujours avoir cette forme :
+      <ul>
+        <li>Son nom doit regrouper les deux tables qu’elle relie, sous la forme : <strong>“table1_table2”</strong>.</li>
+        <li>Elle n’a que deux champs à stocker : <strong><u>table1_id</u></strong> et <strong><u>table2_id</u></strong>.<br>
+          Soit les id de chaque objet qu’elle relie.
+          <ul>
+            <li>Ces id sont donc des références aux id des autres tables.</li>
+          </ul>
+        </li>
+        <li>Sa clé primaire n’est autre que l’association de ces deux id (association qui doit toujours être unique).</li>
+      </ul><br><br>
+      Dans notre cas, cela donne ceci en commande SQL :<br>
+      <div class="code">
+        CREATE TABLE aliment_lieu (<br>
+          aliment_id INT NOT NULL,<br>
+          lieu_id INT NOT NULL,<br>
+          FOREIGN KEY (aliment_id) REFERENCES aliment (id) ON DELETE RESTRICT ON UPDATE CASCADE,<br>
+          FOREIGN KEY (lieu_id) REFERENCES lieu (id) ON DELETE RESTRICT ON UPDATE CASCADE,<br>
+          PRIMARY KEY (aliment_id, lieu_id)<br>
+          <br>
+          );<br>
+      </div><br><br>
+      Décortiquons cette commande ensemble :
+      <ul>
+        <li>On crée une <strong>nouvelle table</strong> avec le nom des deux tables qu’elle relie (ici la table <strong><“aliment”/strong>, ainsi que la table <strong>“lieu”</strong>).</li>
+        <li>On ajoute les références aux id de ces deux tables :
+          <ul>
+            <li><strong><u>aliment_id</u></strong>, qui est une référence aux id de la table <strong>“aliment”</strong> ;</li>
+            <li><strong><u>lieu_id</u></strong>, qui est une référence aux id de la table <strong>“lieu”</strong> ;</li>
+            <li>on signale à MySQL comment mettre à jour la BDD en cas de suppression ou de mise à jour d’un objet de “aliment_lieu”.</li>
+          </ul>
+        </li>
+        <li>
+          On explique à MySQL que l’id de cette table sera l’association entre les deux id précédents.
+        </li>
+      </ul><br>
+      <div class="remarque">
+        <strong><u>ON UPDATE</u></strong> est le comportement que doit adopter MySQL en cas de mise à jour d’un champ.<br>
+        Il peut avoir les mêmes options que <strong><u>ON DELETE</u></strong>
+      </div><br><br>
+      <figure>
+        <img src="media/37_ON-update.png" alt="">
+        <figcaption>Actions de la commande ON UPDATE</figcaption>
+      </figure><br>
+      Admettons que le “oeuf” présent dans notre BDD soit vendu chez “Carrefour City”.<br>
+      Il vous faudrait alors créer un objet dans <strong>“aliment_lieu”</strong>, avec l’<strong><u>id</u></strong> de “oeuf” ainsi que l’<strong><u>id</u></strong> de “Carrefour City”.<br><br>
+      Retrouvez ces id dans votre BDD et écrivez la commande SQL pour créer cette relation.<br>
+      Sachant que 3 est l’id de “oeuf”, 1 celui du “Carrefour City”, cela donne ça :<br>
+      <div class="code">
+        INSERT INTO `aliment_lieu` (`aliment_id`, `lieu_id`) VALUES ('3', '1');
+      </div><br><br>
+      Le fait que le blanc de dinde soit vendu à Carrefour est stocké en base de données.<br><br>
+      Pour retrouver cette relation, il vous faudra faire un double <strong><u>JOIN</u></strong>.<br>
+      <div class="code">
+        SELECT * FROM aliment<br>
+        JOIN aliment_lieu ON aliment.id = aliment_lieu.aliment_id<br>
+        JOIN lieu ON lieu.id = aliment_lieu.lieu_id<br>
+        WHERE aliment.id = 3;<br>
+      </div><br><br>
+      <div class="remarque">
+        Ici, on joint la table aliment à la table lieu via la table de liaison, comme si c’était une simple relation un à plusieurs répétée.
+      </div><br>
+      <h3>À vous de jouer !</h3>
+      On souhaite savoir quels sont les appareils sur lesquels les utilisateurs ont installé Foodly (par exemple : mac, pc, android, etc).<br>
+      Un utilisateur peut utiliser Foodly sur plusieurs appareils, et un même appareil peut être commun à plusieurs utilisateurs.<br>
+      Il s’agit d’une relation plusieurs à plusieurs<br><br>
+      Un appareil est uniquement constitué de son type au format texte.<br>
+      Comment feriez-vous pour créer cette table et la lier aux utilisateurs ?<br><br>
+      Creation de la table <strong>"appareil"</strong><br>
+      <div class="code">
+        CREATE TABLE appareil (<br>
+        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,<br>
+        type VARCHAR(100) NOT NULL);
+      </div><br>
+      Ajout d'appareil dans la table <strong>"appareil"</strong><br>
+      <div class="code">
+        INSERT INTO appareil (type) VALUES ('Iphone');
+      </div><br>
+      <div class="code">
+        INSERT INTO appareil (type) VALUES ('Android');
+      </div><br>
+      <div class="code">
+        INSERT INTO appareil (type) VALUES ('PC');
+      </div><br>
+      <div class="code">
+        INSERT INTO appareil (type) VALUES ('MAC');
+      </div><br>
+      Creation de la table de liaison <strong>utilisateur_appareil</strong><br>
+      <div class="code">
+        CREATE TABLE utilisateur_appareil (
+          utilisateur_id INT NOT NULL,<br>
+          appareil_id INT NOT NULL,<br>
+          FOREIGN KEY (utilisateur_id) REFERENCES utilisateur (id) ON DELETE RESTRICT ON UPDATE CASCADE,<br>
+          FOREIGN KEY (appareil_id) REFERENCES appareil (id) ON DELETE RESTRICT ON UPDATE CASCADE,<br>
+          PRIMARY KEY (utilisateur_id, appareil_id)<br>
+        )
+      </div><br>
+      Lier le premier utilisateur (id=1) à ses appareils<br>
+      <div class="code">
+        INSERT INTO utilisateur_appareil (utilisateur_id, appareil_id)<br>
+        VALUES<br>
+        (1,2);
+      </div><br>
+      <div class="code">
+        INSERT INTO utilisateur_appareil (utilisateur_id, appareil_id)<br>
+        VALUES<br>
+        (1,4);
+      </div><br>
+      Verification du lien<br>
+      <div class="code">
+        SELECT * FROM utilisateur<br>
+        JOIN utilisateur_appareil ON utilisateur.id = utilisateur_appareil.utilisateur_id<br>
+        JOIN appareil ON appareil.id = utilisateur_appareil.appareil_id<br>
+        WHERE  utilisateur.id = 1;<br>
+      </div><br><br>
+<video src="media/16_alter_table_join_many_to_many.mp4" controls width="800"></video><br/><br/>
+
+<h3>En résumé</h3>
+Vous savez ajouter une <strong>relation plusieurs à plusieurs</strong> entre deux objets en <strong>créant une table de liaison</strong> qui contiendra les <strong>id de chaque objet</strong>.
+
+  </body>
+</html>
