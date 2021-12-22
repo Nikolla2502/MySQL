@@ -16,6 +16,7 @@
         <h2 id="sommaire">- Sommaire -</h2>
         <ul class="list_sommaire">  
             <li><strong><a href="#data_type">Table Types de données</a></strong></li>
+            <li><strong><a href="#where">Isoler plusieurs objets : <strong><u>WHERE</u></strong></a></strong></li>
             <li><strong><a href="#like">Isoler : <strong><u>LIKE</u></strong></a></strong></li>
             <li><strong><a href="#order_by">Ordonner : <strong><u>ORDER BY</u></strong></a></strong></li>
             <li><strong><a href="#count">Compter des objets :<strong><u>COUNT</u></strong></a></strong></li>
@@ -49,14 +50,26 @@
       <li>DEFAULT</li> sert à indiquer une valeur par défaut.<br> Utile pour ne pas avoir à spécifier une valeur tout le temps !
     </ul><br>
 <ul>
+  <li><strong>Afficher les BDD disponibles</strong><br>
+    <div class="code">
+      SHOW DATABASES; 
+    </div><br>
   <li><strong>Creer une BDD</strong><br>
     <div class="code">
       CREATE DATABASE nomdelabase; 
+    </div><br>
+    <div class="code">
+      CREATE DATABASE IF NOT EXISTS nomdelabase; 
     </div>
   </li><br>
   <li><strong>Selectionner une BDD</strong><br>
     <div class="code">
       USE nomdelabase;
+    </div>
+  </li><br>
+  <li><strong>Supprimer une BDD</strong><br>
+    <div class="code">
+      DROP DATABASE nomdelabase;
     </div>
   </li><br>
   <li><strong>Creer une table'utilisateur'</strong><br>
@@ -74,7 +87,11 @@
     );<br>
     </div>
   </li><br>
-  <li>
+  <li><br>
+    ou<br>
+    <div class="code">
+      CREATE TABLE IF NOT EXISTS utilisateur;
+    </div>
     Voici un tableau récapitulatif du schéma des utilisateurs :<br>
 
 <table>
@@ -134,6 +151,24 @@
     <td>Ce champ ne peut pas avoir la même valeur en double.</td>
   </tr>
 </table><br>
+
+<ul>Types de données
+  <li><strong>Types numeriques</strong><br>
+    <figure>
+      <img src="media/MySQL_type_donnees_1.png" alt="">
+    </figure>
+  </li><br>
+  <li><strong>Types pour les chaînes</strong><br>
+    <figure>
+      <img src="media/MySQL_type_donnees_2.png" alt="">
+    </figure>
+  </li><br>
+  <li><strong><u>Types pour les dates</u></strong><br>
+    <figure>
+      <img src="media/MySQL_type_donnees_3.png" alt="">
+    </figure>
+  </li><br>
+</ul><br>
 <ul>Proprietes disponibles
   <li><strong><u>FLOAT</u></strong><br>
     signifie que le champ contiendra des chiffres décimaux ;
@@ -154,17 +189,32 @@
       SHOW tables;
     </div>
   </li><br>
+  <li><strong>Afficher les details d'une table</strong><br>
+    <div class="code">
+      describe nomdelatable;
+    </div>
+  </li><br>
   <li><strong>Ajouter une colonne 'langue' à la table'utilisateur'</strong><br>
     <div class="code">
       ALTER TABLE utilisateur<br> 
       ADD COLUMN langue VARCHAR(100) NOT NULL;
     </div>
   </li><br>
+  <li><strong>Supprimer la colonne 'langue' à la table'utilisateur'</strong><br>
+    <div class="code">
+      ALTER TABLE utilisateur<br> 
+      DROP langue;
+    </div>
+  </li><br>
   <li><strong>Changer le nom de la colonne 'nom'  par 'nom_langue' dans la table 'langue'</strong><br>
     <div class="code">
       ALTER TABLE langue<br> 
       CHANGE nom nom_langue VARCHAR(10) NOT NULL;
-    </div>
+    </div><br>
+    C’est une spécificité propre à MySQL : pour renommer une colonne, il faut aussi indiquer son type.<br>
+Ce qui n’est pas nécessaire si vous utilisez un autre SGBD.<br>
+Cela permet de modifier à la fois le nom et le type d’une colonne dans une seule commande.<br>
+Et ce, même si vous ne souhaitez pas le modifier(réutilisez alors le même type)<br>
   </li><br>
   <li><strong>Changer le type VARCHAR(100) de la colonne 'nom'  par VARCHAR(250) dans la table 'langue'</strong><br>
     <div class="code">
@@ -218,7 +268,7 @@
       DELETE FROM utilisateur WHERE `id` = '2';
     </div>
   </li><br>
-  <li><strong>Selectionner selon des criteres</strong><br>
+  <li id='where'><strong>Selectionner selon des criteres</strong><br>
     Utilisation de <div class="inner_code">WHERE</div><br>
     <div class="code">
       SELECT * FROM nomdelatable WHERE key = “value”;
@@ -230,7 +280,7 @@
       ou  <strong><u>DELETE</u></strong>
     </div>
   </li><br>
-  <li id='WHERE'><strong>Isoler plusieurs objets répondant à un critère de comparaison</strong><br>
+  <li><strong>Isoler plusieurs objets répondant à un critère de comparaison</strong><br>
     <div class="code">
       SELECT * FROM nomdelatable WHERE key < value;
     </div><br>
@@ -384,7 +434,7 @@
           c’est l’utilisateur qui va devoir stocker l’<strong>id unique</strong> de la langue associée.<br>
           Par convention, on utilise comme nom de ce champ  <strong><u>{nom de l’objet associé}_id</u></strong>  (donc ici,  <strong><u>langue_id</u></strong>  ).
         </li><br>
-        <li></li><br>
+
       </ol>
       Les utilisateurs de la base de données mise à jour dans la partie 2 ont ainsi un champ  <strong><u>langue_id</u></strong>  , où est stocké l’<strong>id de la langue</strong> qu’ils souhaitent utiliser.<br>
       <div class="remarque">
@@ -422,9 +472,18 @@
         <li>En précisant à MySQL de les relier, en considérant que l’<strong>id de la langue </strong>est stockée dans chaque utilisateur dans le champ <strong>langue_id</strong>.<br>
           <strong><u>ON `utilisateur`.`langue_id` = `langue`.`id`</u></strong></li><br>
       </ul>
-    </li><br><br>
+    </li><br>
+    Exemple :<br>
+    Rechercher tous les noms de famille des utilisateurs ayant sélectionné le français.<br>
+    <div class="code">
+      SELECT * FROM utilisateur<br>
+      <br>
+    JOIN langue<br>
+    <br>
+    ON utilisateur.langue_id = langue.id WHERE langue.nom = 'français';<br>
+    </div><br><br>
     <strong>Relation plusieurs à plusieurs</strong><br>
-
+    La relation plusieurs à plusieurs permet à chaque objet d’une table de pouvoir être relié à plusieurs objets de l’autre table, et vice versa.
 
 
 

@@ -20,6 +20,8 @@
             <li><strong><a href="#sgbd">1.1 - Découvrez le système de gestion de base de données (SGBD) -</a></strong></li>
             <li><strong><a href="#MySQL_install">1.2 - Installez le SGBD MySQL -</a></strong></li>
             <li><strong><a href="#bdd">1.3 - Créez votre base de données (BDD) -</a></strong></li>
+            <li><strong><a href="#data_type"> - Types de données -</a></strong></li>
+            <li><strong><a href="#contraintes">1.4 - Les contraintes -</a></strong></li>
             <li><strong><a href="#BDD_data_insert">2.1 - Insérez des données dans votre BDD -</a></strong></li>
             <li><strong><a href="#BDD_data_select">2.2 - Sélectionnez les données présentes dans votre BDD -</a></strong></li>
             <li><strong><a href="#update_BDD">2.3 - Mettez à jour les données de votre BDD -</a></strong></li>
@@ -51,6 +53,8 @@
         <ul class="list_sommaire">
           <li><a href="https://www.youtube.com/watch?v=qrmLVJBJ-D4&list=PLjwdMgw5TTLUJLpzUYGBK7K5-hPgZA7zo" target="_blank">Grafikart - Tuto MySQL YouTube</a></li>
           <li><a href="https://grafikart.fr/tutoriels/introduction-1093#autoplay" target="_blank">Grafikart - Tuto MySQL</a></li>
+          <li><a href="https://www.youtube.com/watch?v=3KwmNNucIjA&list=PLrSOXFDHBtfGl66sXijiN8SU9YJaM_EQg" target="_blank">FormationVidéo - Tuto MySQL</a></li>
+
 
           
         </ul>
@@ -196,6 +200,28 @@ Pour vous aider, voici un tableau récapitulatif des forces et faiblesses de cha
   <li>MySQL est un système de gestion de bases de données (SGBD).<br>
     C’est même le plus répandu sur le marché.</li><br>
 </ul>
+
+<h3>Moteur de stockage</h3>
+Eviter de lier des tables qui n'ont pas le meme moteur de stockage.
+<h4>MyISAM (Non transactionnel)</h4>
+Utile si beaucoup de donnees , acces rapide 
+<ul>
+  <li>Rapide en ecriture</li>
+  <li>Tres rapide en lecture</li>
+  <li>Efficace pour la recherche</li>
+  <li>Efficace pour la recherche</li>
+</ul>
+Lors d'une requete sur une table celle-ci n'est pas accessible pour d'autre requetes
+<h4>InnoDB (Transactionnel)</h4>
+<ul>
+  <li>Beaucoup d'ecritures</li>
+  <li>Securiser les donnees</li>
+  <li>Coherence entre les donnees (tables)</li>
+</ul>
+Lors d'une requete sur une table seule la ligne concernee n'est pas accessible pour d'autre requetes
+
+
+
 
   <h5><a href="#sommaire">Sommaire</a></h5>
 
@@ -476,7 +502,25 @@ On obtient bien  <strong><u>Query OK</u></strong>, donc tout s’est bien passé
  Tout comme votre passeport qui recense votre nom ou votre âge, eh bien, pour vos utilisateurs, on va faire de même.<br>
 Chacun de ces champs doit avoir un type, pour que MySQL comprenne à quoi “va ressembler” la donnée qui sera stockée dans ce champ.<br>
 Par exemple, est-ce que le champ contiendra du texte, des chiffres, etc.
-Ici, on déclare plusieurs champs qui seront partagés par tous les utilisateurs.<br>
+Ici, on déclare plusieurs champs qui seront partagés par tous les utilisateurs.<br><br>
+<ul id='data_type'><strong>Types de données</strong>
+  <a href="https://www.vulgarisation-informatique.com/mysql-types-donnees.php" target='_blank'>Types de donnees - Vulgarisation-informatique.com</a>
+  <li><strong>Types numeriques</strong><br>
+    <figure>
+      <img src="media/MySQL_type_donnees_1.png" alt="">
+    </figure>
+  </li><br>
+  <li><strong>Types pour les chaînes de caracteres</strong><br>
+    <figure>
+      <img src="media/MySQL_type_donnees_2.png" alt="">
+    </figure>
+  </li><br>
+  <li><strong>Types pour les dates</strong><br>
+    <figure>
+      <img src="media/MySQL_type_donnees_3.png" alt="">
+    </figure>
+  </li><br>
+</ul><br><br>
 Voici un tableau récapitulatif du schéma des utilisateurs :<br>
 
 <table>
@@ -676,6 +720,95 @@ Et voilà, votre BDD est à jour !
   <li>Une table est un espace dans votre base de données qui va stocker des objets de même type. On la crée avec la commande  <strong><u>CREATE TABLE;</u></strong>  </li><br>
   <li>Pour vérifier la création des tables, on utilise la commande  <strong><u>SHOW COLUMNS FROM table;</u></strong>   qui permet de voir la structure de cette table.</li><br>
 </ul>
+<h5><a href="#sommaire">Sommaire</a></h5>
+
+  <h2 id="contraintes">1.4 - Les contraintes -</h2>
+  Les contraintes sont les regles definies sur les tables lors de la creation des tables.
+  <ul>
+    <li><strong><u>NOT NULL</u></strong><br>
+      signifie que le champ doit etre renseigne ;
+    </li><br>
+    <li><strong><u>DEFAULT</u></strong><br>
+      Valeur par defaut.<br>
+      Si on veut un boolean avec une valeur par defaut 'false'<br>
+      <strong><u>DEFAULT 0</u></strong>
+    </li><br>
+    <li><strong><u>CHECK</u></strong><br>
+      Verification d'une valeur<br>
+      Verifier que la valeur "prix" est positive<br>
+      <strong><u>CHECK(prix > 0)</u></strong>
+         <strong>Ajouter la contrainte CHECK</strong><br>
+        <div class="code">
+          ALTER TABLE nomdelatable<br>
+          ADD  CHECK(prix > 0);
+        </div>
+        <strong>Ajouter la contrainte CHECK sur plusieurs champs</strong><br>
+        <div class="code">
+          ALTER TABLE nomdelatable<br>
+          ADD  CONSTRAINT CHK_nomdelacontrainte CHECK(prix > 0, stock > 0);
+        </div>
+        <strong>Supprimer la contrainte CHECK sur plusieurs champs</strong><br>
+        <div class="code">
+          ALTER TABLE nomdelatable<br>
+          DROP CHECK CHK_nomdelacontrainte;
+        </div>    
+    </li><br>
+    <li><strong><u>UNIQUE</u></strong><br>
+      Valeur de champs unique.<br>
+      Par exemple , un pseudo est unique , 2 utilisateurs ne peuvent pas avoir le meme pseudo.<br>
+      La valeur unique permet de verifier que 2 champs differents n'ont pas la meme valeur.<br>
+      <strong>Ajouter la contrainte UNIQUE sur 'user_name'</strong><br>
+      <div class="code">
+        ALTER TABLE nomdelatable<br>
+        ADD UNIQUE('user_name');
+      </div> 
+      <strong>Ajouter la contrainte UNIQUE sur plusieurs champs</strong><br>
+      <div class="code">
+        ALTER TABLE nomdelatable<br>
+        ADD CONSTRAINT UC_user UNIQUE('id_user'user_name');
+      </div> 
+      <strong>Supprimer la contrainte UNIQUE sur plusieurs champs</strong><br>
+      <div class="code">
+        ALTER TABLE nomdelatable<br>
+        DROP INDEX UC_user;
+      </div> 
+     
+    </li><br>
+    <li><strong><u>PRIMARY KEY</u></strong><br>
+      Dans le langage SQL la “PRIMARY KEY”, autrement la clé primaire, permet d’identifier chaque enregistrement dans une table de base de données.<br>
+      Chaque enregistrement de cette clé primaire doit être UNIQUE et ne doit pas contenir de valeur NULL.<br>
+      La clé primaire est un index, chacune des tables ne peut contenir qu’une seule clé primaire, composée d’une ou plusieurs colonnes.<br>
+      L’usage le plus fréquent consiste à créer une colonne numérique qui s’incrémente automatiquement à chaque enregistrement grâce à <div class="inner_code">AUTO_INCREMENT</div>.
+      <strong>Ajouter la cle primaire a 'user_name'</strong><br>
+      <div class="code">
+        ALTER TABLE nomdelatable<br>
+        ADD PRIMARY KEY('user_name');
+      </div> 
+    </li><br>
+    <li><strong><u>AUTO_INCREMENT</u></strong><br>
+      Auto incrementation, SQL va incrementer la valeur automatiquement<br>
+      Tres utile pour les identifiants
+    </li><br>
+    <li><strong><u>INDEX</u></strong><br>
+      En SQL, les index sont des ressources très utiles qui permettent d’accéder plus rapidement aux données.<br>
+      Cette <a href="https://sql.sh/cours/index" target='_target'>page</a> explique le fonctionnement des index et leurs intérêts pour accroître les performances de lectures des données.
+    </li><br>
+  </ul>
+
+  <ul>
+    <li><strong>Modifier une contrainte</strong><br>
+    <div class="code">
+      ALTER TABLE nomdelatable<br>
+      ALTER nomdelavaleur SET nomdelacontrainte;
+    </div>
+    </li><br>
+    <li><strong>Supprimer une contrainte</strong><br>
+      <div class="code">
+        ALTER TABLE nomdelatable<br>
+        ALTER nomdelavaleur DROP nomdelacontrainte;
+      </div>
+      </li><br>
+  </ul>
 
 
 <h5><a href="#sommaire">Sommaire</a></h5>
