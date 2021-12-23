@@ -132,8 +132,9 @@ img
   border: solid 2px white;
   min-width: 40%;;
 }
-strong u
+strong u,.inner_code
 {
+  display: inline-block;
   padding: 1px 5px 1px 5px;
   background-color:  rgb(206, 201, 201);
   text-decoration-line: none;
